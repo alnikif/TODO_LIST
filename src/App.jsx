@@ -4,11 +4,14 @@ import { CreateTaskForm } from './components/CreateTaskForm';
 import Providers from './Providers';
 import ToDoList from './components/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
+import {Modal} from "./components/Modal/Modal";
+import {Portal} from "./components/Portal";
 
 function App() {
   const [list, setList] = useState([]);
   const [selectedTasksIds, setSelectedTasksIds] = useState([]);
   const [display , setDisplay] = useState('none');
+  const [showAddTaskModal, setShowAddTaskModal] = useState(false);
 
   const taskList = useMemo(() => (
     list.map((item) => ({...item, isSelected: selectedTasksIds.includes(item.id)}))
@@ -18,9 +21,12 @@ function App() {
     list.length && list.every((item) => selectedTasksIds.includes(item.id))
   ), [list, selectedTasksIds]);
 
+  const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
+  const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
 
   const onCreateTask = (newTask) => {
     setList((prevList) => ([...prevList, {...newTask, id: nanoid()}]));
+    onCloseCreateTaskModal();
   };
 
   const onRemoveTask = (removeId) => {
@@ -62,7 +68,18 @@ function App() {
     <Providers>
       <div className='container'>
         <h1>TODO LIST</h1>
-        <CreateTaskForm onCreateTask={onCreateTask} onRemoveCompletedTasks={onRemoveCompletedTasks} />
+        <button className='btn' onClick={onOpenCreateTaskModal}>Add task</button>
+        {showAddTaskModal && (
+          <Portal>
+            <Modal onClose={onCloseCreateTaskModal}>
+              <CreateTaskForm
+                onCreateTask={onCreateTask}
+                onRemoveCompletedTasks={onRemoveCompletedTasks}
+              />
+            </Modal>
+          </Portal>
+        )}
+
         <button onClick={onRemoveCompletedTasks} className='btn'> Remove completed tasks </button>
         <ToDoList
           list={taskList}
