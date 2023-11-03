@@ -5,7 +5,6 @@ import Providers from './Providers';
 import ToDoList from './components/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
 
-
 function App() {
   const [list, setList] = useState([]);
   const [selectedTasksIds, setSelectedTasksIds] = useState([]);
@@ -53,7 +52,7 @@ function App() {
       return setSelectedTasksIds(list.map((item) => item.id));
     }
     return setSelectedTasksIds([]);
-    
+
   }
   const showDescription = () => {
     return display === 'none' ? setDisplay('block') : setDisplay('none');
@@ -65,16 +64,16 @@ function App() {
         <h1>TODO LIST</h1>
         <CreateTaskForm onCreateTask={onCreateTask} onRemoveCompletedTasks={onRemoveCompletedTasks} />
         <button onClick={onRemoveCompletedTasks} className='btn'> Remove completed tasks </button>
-        <ToDoList 
+        <ToDoList
           list={taskList}
-          isAllTasksSelected={isAllTasksSelected} 
+          isAllTasksSelected={isAllTasksSelected}
           display={display}
           onToggleTask={onToggleTask}
           onRemoveTask={onRemoveTask}
-          onToggleStatus={onToggleStatus} 
+          onToggleStatus={onToggleStatus}
           onToggleAllTasks={onToggleAllTasks}
           showDescription={showDescription}
-        /> 
+        />
       </div>
     </Providers>
   );
