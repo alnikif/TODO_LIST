@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import './App.scss';
-import { CreateTaskForm } from './components/CreateTaskForm';
+import { CreateTaskForm } from './components/CreateTaskForm/CreateTaskForm';
 import Providers from './Providers';
 import ToDoList from './components/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
@@ -75,6 +75,17 @@ function App() {
               <CreateTaskForm
                 onCreateTask={onCreateTask}
                 onRemoveCompletedTasks={onRemoveCompletedTasks}
+              />
+            </Modal>
+          </Portal>
+        )}
+  {showDeleteTasksModal && (
+          <Portal>
+            <Modal onSuccsess={()=> onDeleteTasks}
+             onClose={}>
+              <DeleteTasksModalBody   
+              //div ? are you sure...
+                deleteTasksList={tasksList}
               />
             </Modal>
           </Portal>

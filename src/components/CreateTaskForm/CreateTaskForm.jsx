@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ToDoListStateType, TaskType } from "../redux/toDoList-types";
+import { ToDoListStateType, TaskType } from "../../redux/toDoList-types";
 
 const initialFormData = {
     title: '',
