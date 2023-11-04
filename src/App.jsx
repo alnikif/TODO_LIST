@@ -6,12 +6,15 @@ import ToDoList from './components/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
 import {Modal} from "./components/Modal/Modal";
 import {Portal} from "./components/Portal";
+import {DeleteTasksModalBody} from "./components/Modal/DeleteTasksModalBody";
 
 function App() {
   const [list, setList] = useState([]);
   const [selectedTasksIds, setSelectedTasksIds] = useState([]);
   const [display , setDisplay] = useState('none');
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
+
 
   const taskList = useMemo(() => (
     list.map((item) => ({...item, isSelected: selectedTasksIds.includes(item.id)}))
@@ -23,6 +26,10 @@ function App() {
 
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
   const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
+  
+  const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
+  const onCloseDeleteSelectedTasksModal = () => setShowDeleteTasksModal(false);
+
 
   const onCreateTask = (newTask) => {
     setList((prevList) => ([...prevList, {...newTask, id: nanoid()}]));
@@ -58,11 +65,17 @@ function App() {
       return setSelectedTasksIds(list.map((item) => item.id));
     }
     return setSelectedTasksIds([]);
-
   }
   const showDescription = () => {
     return display === 'none' ? setDisplay('block') : setDisplay('none');
   }
+
+  const onRemoveSelectedTasks = () => {
+    const selectedList = list.filter(item => !selectedTasksIds.includes(item.id));
+    setShowDeleteTasksModal(false);
+    setList(selectedList);
+  }
+
 
   return (
     <Providers>
@@ -74,23 +87,21 @@ function App() {
             <Modal onClose={onCloseCreateTaskModal}>
               <CreateTaskForm
                 onCreateTask={onCreateTask}
-                onRemoveCompletedTasks={onRemoveCompletedTasks}
               />
             </Modal>
           </Portal>
         )}
   {showDeleteTasksModal && (
           <Portal>
-            <Modal onSuccsess={()=> onDeleteTasks}
-             onClose={}>
+            <Modal
+              onClose={onCloseDeleteSelectedTasksModal}>
               <DeleteTasksModalBody   
-              //div ? are you sure...
-                deleteTasksList={tasksList}
+                onRemoveCompletedTasks={onRemoveSelectedTasks}
               />
             </Modal>
           </Portal>
         )}
-
+        <button onClick={onOpenDeleteSelectedTasksModal} className='btn'> Remove selected tasks </button>
         <button onClick={onRemoveCompletedTasks} className='btn'> Remove completed tasks </button>
         <ToDoList
           list={taskList}
