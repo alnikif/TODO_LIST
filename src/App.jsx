@@ -2,11 +2,12 @@ import React, { useMemo, useState } from 'react';
 import './App.scss';
 import { CreateTaskForm } from './components/CreateTaskForm/CreateTaskForm';
 import Providers from './Providers';
-import ToDoList from './components/ToDoList';
+import ToDoList from './components/ToDoList/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
 import {Modal} from "./components/Modal/Modal";
 import {Portal} from "./components/Portal";
-import {DeleteTasksModalBody} from "./components/Modal/DeleteTasksModalBody";
+import {DeleteTasksModalBody} from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
+import { Button } from './components/Button/Button';
 
 function App() {
   const [list, setList] = useState([]);
@@ -81,7 +82,7 @@ function App() {
     <Providers>
       <div className='container'>
         <h1>TODO LIST</h1>
-        <button className='btn' onClick={onOpenCreateTaskModal}>Add task</button>
+        <Button onClick={onOpenCreateTaskModal} tittle='Add task' />
         {showAddTaskModal && (
           <Portal>
             <Modal onClose={onCloseCreateTaskModal}>
@@ -93,16 +94,15 @@ function App() {
         )}
   {showDeleteTasksModal && (
           <Portal>
-            <Modal
-              onClose={onCloseDeleteSelectedTasksModal}>
+            <Modal onClose={onCloseDeleteSelectedTasksModal}>
               <DeleteTasksModalBody   
                 onRemoveCompletedTasks={onRemoveSelectedTasks}
               />
             </Modal>
           </Portal>
         )}
-        <button onClick={onOpenDeleteSelectedTasksModal} className='btn'> Remove selected tasks </button>
-        <button onClick={onRemoveCompletedTasks} className='btn'> Remove completed tasks </button>
+        <Button onClick={onOpenDeleteSelectedTasksModal} tittle='Remove selected tasks' />
+        <Button onClick={onRemoveCompletedTasks} tittle='Remove completed tasks' />
         <ToDoList
           list={taskList}
           isAllTasksSelected={isAllTasksSelected}

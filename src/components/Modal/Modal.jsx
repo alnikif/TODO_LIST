@@ -1,4 +1,4 @@
-import React from 'react';
+import { Button } from '../Button/Button';
 import styles from './Modal.module.scss';
 import cx from 'classnames';
 
@@ -18,7 +18,7 @@ export const Modal = (props) => {
         styles.itemsCenter
       )}>
         {children}
-        <button onClick={onClose}>Close</button>
+        <Button onClick={onClose} tittle='Close' />
       </div>
     </div>
   );

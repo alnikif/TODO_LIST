@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { ToDoListStateType, TaskType } from "../../redux/toDoList-types";
+import { useState } from "react";
+import styles from './CreateTaskForm.module.scss'
+import { Button } from "../Button/Button";
+import cx from 'classnames';
+
 
 const initialFormData = {
     title: '',
@@ -44,12 +47,18 @@ export const CreateTaskForm = (props) => {
     }
 
     return (
-        <form name='createTask' onSubmit={onSubmit}>
-            <label htmlFor="title">Tittle</label>
-            <input type="text" id="title" className="inpt-txt" value={title} onChange={onChangeTitle} />
-            <label htmlFor="description">Description</label>
-            <input type="text" id="description" className="inpt-txt" value={description} onChange={onChangeDiscription} />
-            <button type="submit" disabled={!title } className="btn"> ADD </button>
+        <form name='createTask' 
+            className={cx(
+                styles.displayFlex,
+                styles.flexCol,
+                styles.justifyCenter,
+                styles.itemsCenter
+            )}>
+            <label htmlFor="title" className={styles.inptTittle}>Tittle</label>
+            <input type="text" id="title" className={styles.inptTxt} value={title} onChange={onChangeTitle} />
+            <label htmlFor="description" className={styles.inptTittle}>Description</label>
+            <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDiscription} />
+            <Button onClick={onSubmit} tittle='ADD' />
         </form>
     );
 };
