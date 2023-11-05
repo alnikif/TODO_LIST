@@ -1,8 +1,8 @@
 import { Button } from '../Button/Button';
-import styles from './DeleteTasksModalBody.module.scss';
+import styles from './DeleteComleteTasksModalBody.module.scss';
 import cx from 'classnames';
 
-export const DeleteTasksModalBody = ({onClick}) => {
+export const DeleteComleteTasksModalBody = ({onClick}) => {
     return(
         <div className={styles.modalDialog}>
             <div className={cx(

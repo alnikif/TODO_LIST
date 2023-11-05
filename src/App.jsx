@@ -4,10 +4,11 @@ import { CreateTaskForm } from './components/CreateTaskForm/CreateTaskForm';
 import Providers from './Providers';
 import ToDoList from './components/ToDoList/ToDoList';
 import { nanoid } from "@reduxjs/toolkit";
-import {Modal} from "./components/Modal/Modal";
-import {Portal} from "./components/Portal";
-import {DeleteTasksModalBody} from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
+import { Modal } from "./components/Modal/Modal";
+import { Portal } from "./components/Portal";
+import { DeleteTasksModalBody } from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
 import { Button } from './components/Button/Button';
+import { DeleteComleteTasksModalBody } from './components/DeleteCompletedTasksModalBody/DeleteCompletedTasksModalBody';
 
 function App() {
   const [list, setList] = useState([]);
@@ -15,6 +16,7 @@ function App() {
   const [display , setDisplay] = useState('none');
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
+  const [deleteComleteTasksModal, setDeleteComleteTasksModal] = useState(false);
 
 
   const taskList = useMemo(() => (
@@ -31,6 +33,9 @@ function App() {
   const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
   const onCloseDeleteSelectedTasksModal = () => setShowDeleteTasksModal(false);
 
+  const onOpenDeleteCompletedTaskModal = () => setDeleteComleteTasksModal(true);
+  const onCloseDeleteCompletedTaskModal = () => setDeleteComleteTasksModal(false);
+
 
   const onCreateTask = (newTask) => {
     setList((prevList) => ([...prevList, {...newTask, id: nanoid()}]));
@@ -43,8 +48,9 @@ function App() {
 
   const onRemoveCompletedTasks = () => {
     const newList = list.filter(item => !item.isDone)
+    setDeleteComleteTasksModal(false);
     setList(newList)
-  }
+  };
 
   const onToggleStatus = (taskId) => {
     setList((prevList) => (prevList.map((item) => {
@@ -59,24 +65,24 @@ function App() {
       return setSelectedTasksIds([...selectedTasksIds, taskId]);
     }
     return setSelectedTasksIds(selectedTasksIds.filter((item) => item !== taskId));
-  }
+  };
 
   const onToggleAllTasks = () => {
     if(!isAllTasksSelected){
       return setSelectedTasksIds(list.map((item) => item.id));
     }
     return setSelectedTasksIds([]);
-  }
+  };
+
   const showDescription = () => {
     return display === 'none' ? setDisplay('block') : setDisplay('none');
-  }
+  };
 
   const onRemoveSelectedTasks = () => {
     const selectedList = list.filter(item => !selectedTasksIds.includes(item.id));
     setShowDeleteTasksModal(false);
     setList(selectedList);
-  }
-
+  };
 
   return (
     <Providers>
@@ -96,13 +102,22 @@ function App() {
           <Portal>
             <Modal onClose={onCloseDeleteSelectedTasksModal}>
               <DeleteTasksModalBody   
-                onRemoveCompletedTasks={onRemoveSelectedTasks}
+                onClick={onRemoveSelectedTasks}
+              />
+            </Modal>
+          </Portal>
+        )}
+         {deleteComleteTasksModal && (
+          <Portal>
+            <Modal onClose={onCloseDeleteCompletedTaskModal}>
+              <DeleteComleteTasksModalBody   
+                onClick={onRemoveCompletedTasks}
               />
             </Modal>
           </Portal>
         )}
         <Button onClick={onOpenDeleteSelectedTasksModal} tittle='Remove selected tasks' />
-        <Button onClick={onRemoveCompletedTasks} tittle='Remove completed tasks' />
+        <Button onClick={onOpenDeleteCompletedTaskModal} tittle='Remove completed tasks' />
         <ToDoList
           list={taskList}
           isAllTasksSelected={isAllTasksSelected}

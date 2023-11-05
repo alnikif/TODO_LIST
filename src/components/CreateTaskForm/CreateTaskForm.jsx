@@ -58,7 +58,7 @@ export const CreateTaskForm = (props) => {
             <input type="text" id="title" className={styles.inptTxt} value={title} onChange={onChangeTitle} />
             <label htmlFor="description" className={styles.inptTittle}>Description</label>
             <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDiscription} />
-            <Button onClick={onSubmit} tittle='ADD' />
+            <Button onClick={onSubmit} type={title.length && 'action'} tittle='ADD' />
         </form>
     );
 };

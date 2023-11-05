@@ -1,0 +1,59 @@
+/* Стили для контейнера ползунка */
+.slider-container {
+    position: relative;
+    width: 30px; /* Уменьшенная ширина контейнера */
+    height: 17px; /* Уменьшенная высота контейнера */
+    margin-right: 5px;
+    top: 10px;
+  }
+  
+  /* Скрытие стандартного чекбокса */
+  .inptCheckbox {
+    display: none;
+  }
+  
+  /* Стили для ползунка-переключателя */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 50%; /* Центрирование вертикально */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 0.5px solid #ccc;
+    border-radius: 17px; /* Уменьшенный радиус границы */
+    width: 50px; /* Уменьшенная ширина ползунка */
+    height: 17px; /* Фиксированная высота ползунка */
+    transform: translateY(50%); /* Центрирование вертикально */
+    transition: 0.4s;
+    font-size: 10px;
+    text-align: end;
+    padding-top: 3px;
+    padding-right: 4px;
+    color: #2196F3;
+  }
+  
+  /* Стили для отображения активного состояния */
+  .inptCheckbox:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  /* Стили для переключателя в активном состоянии */
+  .slider:before {
+    position: absolute;
+    top: 50%; /* Центрирование вертикально */
+    left: 30%; /* Центрирование горизонтально */
+    transform: translate(-50%, -50%); /* Центрирование по центру контейнера */
+    content: "";
+    height: 13px; /* Уменьшенная высота переключателя */
+    width: 13px; /* Уменьшенная ширина переключателя */
+    background-color: white;
+    border: 0.5px solid #ccc;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  
+  /* Стили для отображения активного состояния переключателя */
+  .inptCheckbox:checked + .slider:before {
+    transform: translateX(100%) translateY(-50%); /* Перемещение в активное состояние */
+  }
