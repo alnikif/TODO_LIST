@@ -3,7 +3,7 @@ import styles from './Modal.module.scss';
 import cx from 'classnames';
 
 export const Modal = (props) => {
-  let { children, onClose } = props;
+  let { children, onAccept, onClose } = props;
 
   if (!children) {
     children = <p>This is a example modal</p>;
@@ -18,7 +18,10 @@ export const Modal = (props) => {
         styles.itemsCenter
       )}>
         {children}
-        <Button onClick={onClose} tittle='Close' />
+        <Button onClick={onClose}>Close</Button>
+        {onAccept && (
+          <Button onClick={onAccept}>Agree</Button>
+        )}
       </div>
     </div>
   );

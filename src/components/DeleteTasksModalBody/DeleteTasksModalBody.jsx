@@ -1,19 +1,14 @@
-import { Button } from '../Button/Button';
 import styles from './DeleteTasksModalBody.module.scss';
-import cx from 'classnames';
 
-export const DeleteTasksModalBody = ({onClick}) => {
+export const DeleteTasksModalBody = ({ title, selectedTasks }) => {
     return(
-        <div className={styles.modalDialog}>
-            <div className={cx(
-                styles.displayFlex,
-                styles.flexCol,
-                styles.justifyCenter,
-                styles.itemsCenter
-            )}>
-                <p className={styles.modalText}> Are you sure ?</p>
-                <Button onClick={onClick} tittle='Agree' />
-            </div>
-        </div>
+        <>
+          <p className={styles.modalText}>{title}</p>
+          <div>
+            {selectedTasks.map(({ id, title }) => (
+              <div key={id}>{title}</div>
+            ))}
+          </div>
+        </>
     )
 }

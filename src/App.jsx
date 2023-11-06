@@ -8,7 +8,6 @@ import { Modal } from "./components/Modal/Modal";
 import { Portal } from "./components/Portal";
 import { DeleteTasksModalBody } from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
 import { Button } from './components/Button/Button';
-import { DeleteComleteTasksModalBody } from './components/DeleteCompletedTasksModalBody/DeleteCompletedTasksModalBody';
 
 function App() {
   const [list, setList] = useState([]);
@@ -18,7 +17,6 @@ function App() {
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteComleteTasksModal, setDeleteComleteTasksModal] = useState(false);
 
-
   const taskList = useMemo(() => (
     list.map((item) => ({...item, isSelected: selectedTasksIds.includes(item.id)}))
   ), [list, selectedTasksIds]);
@@ -27,9 +25,17 @@ function App() {
     list.length && list.every((item) => selectedTasksIds.includes(item.id))
   ), [list, selectedTasksIds]);
 
+  const selectedTasks = useMemo(() => (
+    taskList.filter((item) => item.isSelected)
+  ), [taskList]);
+
+  const completedTasks = useMemo(() => (
+    taskList.filter((item) => item.isDone)
+  ), [taskList]);
+
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
   const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
-  
+
   const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
   const onCloseDeleteSelectedTasksModal = () => setShowDeleteTasksModal(false);
 
@@ -88,36 +94,45 @@ function App() {
     <Providers>
       <div className='container'>
         <h1>TODO LIST</h1>
-        <Button onClick={onOpenCreateTaskModal} tittle='Add task' />
+        <Button onClick={onOpenCreateTaskModal}>Add task</Button>
         {showAddTaskModal && (
           <Portal>
             <Modal onClose={onCloseCreateTaskModal}>
-              <CreateTaskForm
-                onCreateTask={onCreateTask}
-              />
+              <CreateTaskForm onCreateTask={onCreateTask} />
             </Modal>
           </Portal>
         )}
-  {showDeleteTasksModal && (
+        {showDeleteTasksModal && (
           <Portal>
-            <Modal onClose={onCloseDeleteSelectedTasksModal}>
-              <DeleteTasksModalBody   
-                onClick={onRemoveSelectedTasks}
+            <Modal
+              onAccept={onRemoveSelectedTasks}
+              onClose={onCloseDeleteSelectedTasksModal}
+            >
+              <DeleteTasksModalBody
+                title="Are you sure you want to delete next tasks?"
+                selectedTasks={selectedTasks}
               />
             </Modal>
           </Portal>
         )}
          {deleteComleteTasksModal && (
           <Portal>
-            <Modal onClose={onCloseDeleteCompletedTaskModal}>
-              <DeleteComleteTasksModalBody   
-                onClick={onRemoveCompletedTasks}
+            <Modal
+              onAccept={onRemoveCompletedTasks}
+              onClose={onCloseDeleteCompletedTaskModal}
+            >
+              <DeleteTasksModalBody
+                title="Are you sure you want to delete all completed tasks?"
+                selectedTasks={completedTasks}
               />
             </Modal>
           </Portal>
         )}
-        <Button onClick={onOpenDeleteSelectedTasksModal} tittle='Remove selected tasks' />
-        <Button onClick={onOpenDeleteCompletedTaskModal} tittle='Remove completed tasks' />
+        <Button disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
+          Remove selected tasks
+        </Button>
+        <Button disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
+          Remove completed tasks</Button>
         <ToDoList
           list={taskList}
           isAllTasksSelected={isAllTasksSelected}

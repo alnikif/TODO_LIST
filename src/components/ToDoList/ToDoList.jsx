@@ -1,25 +1,28 @@
 import React from "react";
 import Task from "../Task/Task";
-
+import styles from './ToDoList.module.scss';
 
 const ToDoList = (props) => {
     const { list, isAllTasksSelected, onRemoveTask, onToggleStatus, onToggleTask, onToggleAllTasks } = props;
 
     return (
-        <div>
+        <div className={styles.listWrapper}>
             <label htmlFor="selected" className="checkbox-text">Check all tasks</label>
             <input type="checkbox" id="selected" className="all-selected-checkbox" disabled={!list.length} checked={isAllTasksSelected} onChange={onToggleAllTasks} />
-            {list.map((lisItem, index ) => {
-                return (
-                    <Task key={lisItem.id}
-                    data={lisItem} 
-                    index={index}
-                    onRemoveTask={onRemoveTask}  
-                    onToggleStatus={onToggleStatus}
-                    onToggleTask={onToggleTask}
-                />
-                );
-            })}
+
+            <div className={styles.list}>
+              {list.map((lisItem, index ) => {
+                    return (
+                        <Task key={lisItem.id}
+                        data={lisItem}
+                        index={index}
+                        onRemoveTask={onRemoveTask}
+                        onToggleStatus={onToggleStatus}
+                        onToggleTask={onToggleTask}
+                    />
+                    );
+                })}
+            </div>
         </div>
     )
 }

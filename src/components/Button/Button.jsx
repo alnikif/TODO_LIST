@@ -1,13 +1,14 @@
 import styles from './Button.module.scss'
 import cx from 'classnames';
 
-export const Button = ({onClick, tittle, type}) => {
+export const Button = ({disabled, children, type, onClick}) => {
     return (
         <button className={
-            cx(styles.btn,
-            type==='action' && styles.action)} 
-            onClick={onClick}>
-            {tittle}
+            cx(styles.btn, type==='action' && styles.action)}
+            disabled={disabled}
+            onClick={onClick}
+        >
+            {children}
         </button>
     )
 }

@@ -1,25 +1,13 @@
-.container{
-    width: 400px;
-    border-radius: 3%;
-    margin: 0 auto;
+.root {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
 
-
-    .is-selected-checkbox{
-        margin: 0 5px;
-    }
-    .tittle-header{
-        display: inline;
-        font-size: 15px;
-        font-weight: 500;
-        text-transform: capitalize;
-        border-bottom: 0.5px solid #bbbbbb;
-    }
-    .all-selected-checkbox{
-        display: inline;
-    }
-    .checkbox-text{
-        color: #aaaaaa;
-        font-size: small;
-    }
+.container {
+    padding: 20px;
 }
 
