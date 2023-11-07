@@ -1,6 +1,8 @@
 import { Button } from '../Button/Button';
 import styles from './Modal.module.scss';
 import cx from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 export const Modal = (props) => {
   let { children, onAccept, onClose } = props;
@@ -18,10 +20,10 @@ export const Modal = (props) => {
         styles.itemsCenter
       )}>
         {children}
-        <Button onClick={onClose}>Close</Button>
         {onAccept && (
-          <Button onClick={onAccept}>Agree</Button>
+          <Button type='action' onClick={onAccept}>Agree</Button>
         )}
+               <Button onClick={onClose} type='action'>Cansel</Button>
       </div>
     </div>
   );

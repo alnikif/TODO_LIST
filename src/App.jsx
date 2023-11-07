@@ -94,7 +94,7 @@ function App() {
     <Providers>
       <div className='container'>
         <h1>TODO LIST</h1>
-        <Button onClick={onOpenCreateTaskModal}>Add task</Button>
+        <Button onClick={onOpenCreateTaskModal} type='action'>Add task</Button>
         {showAddTaskModal && (
           <Portal>
             <Modal onClose={onCloseCreateTaskModal}>
@@ -128,10 +128,10 @@ function App() {
             </Modal>
           </Portal>
         )}
-        <Button disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
+        <Button type="action" disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
           Remove selected tasks
         </Button>
-        <Button disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
+        <Button type='action' disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
           Remove completed tasks</Button>
         <ToDoList
           list={taskList}
