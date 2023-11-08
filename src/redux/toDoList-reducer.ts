@@ -15,7 +15,7 @@ export const toDoListSlice = createSlice({
         addTaskItem: (state, action: PayloadAction<TaskTypeItems & { type: ToDoListStateType }>) => {
             const { title, discription } = action.payload;
             const { list: list  } = state;
-          
+
         }
     },
 });

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState, useReducer} from 'react';
 import './App.scss';
 import { CreateTaskForm } from './components/CreateTaskForm/CreateTaskForm';
 import Providers from './Providers';
@@ -11,16 +11,48 @@ import { Button } from './components/Button/Button';
 import {getToDoListFromLS, setToDoListToLS} from "./utils/local-storage-utils";
 
 function App() {
-  const [list, setList] = useState(null);
+  // const [list, setList] = useState(null);
   const [selectedTasksIds, setSelectedTasksIds] = useState([]);
   const [visibility , setVisibility] = useState('hidden');
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
 
+  const initialState = {
+    list: null,
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type){
+      case "SET_LIST" :
+        return{ ...state, list : action.payload};
+      case "DELETE_TASK" :
+        return{ ...state, list : state.list.filter((item) => item.id !== action.payload)};
+      case "REMOVE_COMPLETE_TASKS":
+        return { ...state, list: state.list.filter(item => !item.isDone)};
+      case "REMOVE_SELECTED_TASKS":
+        return { ...state, list: state.list.filter(item => !selectedTasksIds.includes(item.id)) };
+      case "CREATE_TASK":
+        return { ...state, list: [...state.list,{
+          ...action.payload,
+            id: nanoid(),
+            date: new Date()
+          }] }
+      case "TOGGLE_STATUS":
+        return{ list: state.list.map((item) => {
+            if(item.id !== action.payload) return item;
+            return { ...item, isDone: !item.isDone }})
+          }
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { list } = state;
+
   useEffect(() => {
-    const initialToDoList = getToDoListFromLS() || [];
-    setList(initialToDoList);
+    dispatch({type: 'SET_LIST', payload: getToDoListFromLS() || []});
   }, []);
 
   useEffect(() => {
@@ -54,31 +86,21 @@ function App() {
   const onCloseDeleteCompletedTaskModal = () => setDeleteCompleteTasksModal(false);
 
   const onCreateTask = (newTaskData) => {
-    const newTask = {
-      ...newTaskData,
-      id: nanoid(),
-      date: new Date(),
-    };
-
-    setList((prevList) => ([ ...prevList, newTask ]));
+    dispatch({ type: "CREATE_TASK", payload: newTaskData});
     onCloseCreateTaskModal();
   };
 
   const onRemoveTask = (removeId) => {
-    setList((prevList) => (prevList.filter((item) => item.id !== removeId)));
+    dispatch({type: "DELETE_TASK", payload: removeId})
   };
 
-  const onRemoveCompletedTasks = useCallback(() => {
-    const newList = list.filter(item => !item.isDone);
+  const onRemoveCompleteTasks = useCallback(() => {
+    dispatch({type: "REMOVE_COMPLETE_TASKS"});
     setDeleteCompleteTasksModal(false);
-    setList(newList);
   }, [list]);
 
   const onToggleStatus = (taskId) => {
-    setList((prevList) => (prevList.map((item) => {
-      if(item.id !== taskId) return item;
-      return { ...item, isDone: !item.isDone };
-    })));
+    dispatch({type: "TOGGLE_STATUS", payload: taskId})
   };
 
   const onToggleTask = useCallback((taskId) => {
@@ -99,9 +121,8 @@ function App() {
   const showDescription = () => setVisibility(visibility === 'hidden' ? 'visible' : 'hidden');
 
   const onRemoveSelectedTasks = useCallback(() => {
-    const selectedList = list.filter(item => !selectedTasksIds.includes(item.id));
     setShowDeleteTasksModal(false);
-    setList(selectedList);
+    dispatch({type: "REMOVE_SELECTED_TASKS"})
   }, [list]);
 
   return (
@@ -132,7 +153,7 @@ function App() {
           {deleteCompleteTasksModal && (
               <Portal>
                 <Modal
-                    onAccept={onRemoveCompletedTasks}
+                    onAccept={onRemoveCompleteTasks}
                     onClose={onCloseDeleteCompletedTaskModal}
                 >
                   <DeleteTasksModalBody
