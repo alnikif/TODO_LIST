@@ -7,9 +7,10 @@ const ToDoList = (props) => {
 
     return (
         <div className={styles.listWrapper}>
-            <label htmlFor="selected" className="checkbox-text">Check all tasks</label>
-            <input type="checkbox" id="selected" className="all-selected-checkbox" disabled={!list.length} checked={isAllTasksSelected} onChange={onToggleAllTasks} />
-
+            <div>
+                <label htmlFor="selected" className="checkbox-text">Check all tasks</label>
+                <input type="checkbox" id="selected" className="all-selected-checkbox" disabled={!list.length} checked={isAllTasksSelected} onChange={onToggleAllTasks} />
+            </div>
             <div className={styles.list}>
               {list.map((lisItem, index ) => {
                     return (

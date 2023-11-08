@@ -10,29 +10,27 @@ const initialFormData = {
 }
 
 export const CreateTaskForm = (props) => {
-   const { onCreateTask } = props;
+    const { onCreateTask } = props;
 
     const [taskData, setTaskData] = useState(initialFormData);
-
     const {title, description} = taskData;
 
-    const onResetForm = () => {
-        setTaskData(initialFormData);
-    }
+    const onResetForm = () => setTaskData(initialFormData);
 
     const onChangeTitle = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         setTaskData((prevTaskData) => ({
             ...prevTaskData,
             title : e.target.value,
-
         }));
     };
 
-    const onChangeDiscription = (e) => {
+    const onChangeDescription = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         setTaskData((prevTaskData) => ({
             ...prevTaskData, description : e.target.value
         }));
@@ -41,22 +39,23 @@ export const CreateTaskForm = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         onCreateTask(taskData);
         onResetForm();
     }
 
     return (
         <form name='createTask'
-            className={cx(
-                styles.displayFlex,
-                styles.flexCol,
-                styles.justifyCenter,
-                styles.itemsCenter
-            )}>
+              className={cx(
+                  styles.displayFlex,
+                  styles.flexCol,
+                  styles.justifyCenter,
+                  styles.itemsCenter
+              )}>
             <label htmlFor="title" className={styles.inptTittle}>Title</label>
             <input type="text" id="title" className={styles.inptTxt} value={title} onChange={onChangeTitle} />
             <label htmlFor="description" className={styles.inptTitle}>Description</label>
-            <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDiscription} />
+            <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDescription} />
             <Button onClick={onSubmit} type={title.length && 'action'}>ADD</Button>
         </form>
     );

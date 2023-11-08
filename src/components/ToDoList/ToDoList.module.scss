@@ -1,13 +1,19 @@
 .listWrapper {
-  display: block;
-  padding: 40px 0;
+  display: flex;
+  padding: 10px 0;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .list {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-top: 40px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+input[type="checkbox"]:checked {
+  background-color: #e32525;
 }
