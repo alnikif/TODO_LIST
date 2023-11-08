@@ -1,0 +1,56 @@
+.slider-container {
+    position: relative;
+    width: 30px;
+    height: 17px;
+    margin-right: 5px;
+    top: 10px;
+  }
+
+  .inptCheckbox {
+    display: none;
+  }
+
+  .slider {
+    //position: absolute;
+    cursor: pointer;
+    //top: 50%;
+    //left: 0;
+    //right: 0;
+    background-color: white;
+    border: 0.5px solid #ccc;
+    border-radius: 17px;
+    width: 50px;
+    height: 17px;
+    //transform: translateY(50%);
+    transition: 0.4s;
+    font-size: 10px;
+    text-align: end;
+    padding-top: 3px;
+    padding-right: 4px;
+    color: #6370f0;
+  }
+
+  /* Стили для отображения активного состояния */
+  .inptCheckbox:checked + .slider {
+    background-color: #6370f0;
+  }
+
+  /* Стили для переключателя в активном состоянии */
+  .slider:before {
+    position: absolute;
+    top: 50%; /* Центрирование вертикально */
+    left: 20%; /* Центрирование горизонтально */
+    transform: translate(-50%, -50%); /* Центрирование по центру контейнера */
+    content: "";
+    height: 13px; /* Уменьшенная высота переключателя */
+    width: 13px; /* Уменьшенная ширина переключателя */
+    background-color: white;
+    border: 0.5px solid #ccc;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+
+  /* Стили для отображения активного состояния переключателя */
+  .inptCheckbox:checked + .slider:before {
+    transform: translateX(100%) translateY(-50%); /* Перемещение в активное состояние */
+  }

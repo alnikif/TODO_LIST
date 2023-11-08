@@ -1,0 +1,59 @@
+.taskWrapper {
+  position: relative;
+  width: 600px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 20px;
+  margin: 5px 0;
+  border: 0.5px solid #6370f0;
+  border-radius: 10px;
+  color: #595959;
+
+  .tailBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+  }
+
+  .index {
+
+  }
+
+  .date {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-top: 0.5rem;
+  }
+
+  .title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    text-transform: capitalize;
+    box-sizing: border-box;
+  }
+
+  .description {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .slider {
+    position: relative;
+  }
+
+  .removeItem {
+    color: #6370f0;
+    padding-left: 5px;
+    font-size: 12px;
+  }
+}
