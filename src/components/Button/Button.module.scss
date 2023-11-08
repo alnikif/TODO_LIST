@@ -11,41 +11,40 @@
     background-color: #6370f0;
     color: white;
 }
+.action:disabled{
+    background-color: #aaaaaa;
+}
 .closeButton {
     width: 15px;
     height: 15px;
     box-sizing: border-box;
     position: absolute;
-    top: -10px;
+    top: 35px;
     right: 0;
     transform: translateY(-100%);
     font-size: 2.5rem;
     padding: 1rem;
     border-radius: 4px;
-    background-color: gray;
-    color: black;
+    color: red;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: 0.3s ease all;
-    z-index: -1;
     border: none;
+    background-color: inherit;
     &:before, &:after {
         position: absolute;
         transform: translate(50%);
         content: ' ';
         height: 20px;
         width: 2px;
-        background-color: #333;
+        background-color: #aaa;
     }
     &:before {
         transform: rotate(45deg);
     }
     &:after {
         transform: rotate(-45deg);
-    }
-    &:hover {
-        background-color: #e32525;
     }
 }
