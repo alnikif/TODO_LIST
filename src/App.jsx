@@ -14,13 +14,13 @@ import {getToDoListFromLS, setToDoListToLS} from "./utils/local-storage-utils";
 function App() {
   // const [selectedTasksIds, setSelectedTasksIds] = useState([]);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [visibility , setVisibility] = useState('hidden');
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
 
   const initialState = {
     list: null,
-    visibilityDescription: false,
-    selectedTasksIds: [],
+    selectedTasksIds: []
   };
 
   const reducer = (state, action) => {
@@ -32,7 +32,7 @@ function App() {
       case "REMOVE_COMPLETE_TASKS":
         return { ...state, list: state.list.filter(item => !item.isDone)};
       case "REMOVE_SELECTED_TASKS":
-        return { ...state, list: state.list.filter(item => !state.selectedTasksIds.includes(item.id)) };
+        return { ...state, list: state.list.filter(item => !state.selectedTasksIds.includes(item.id))};
       case "CREATE_TASK":
         return { ...state, list: [...state.list,{
           ...action.payload,
@@ -48,9 +48,7 @@ function App() {
         if(!action.payload) {
           return {...state, selectedTasksIds: state.list.map((item) => item.id)};
         }
-        return { ...state, selectedTasksIds: []}
-      case "SHOW_DESCRIPTION" :
-        return { ...state, visibilityDescription: 'hidden' ? 'visible' : 'hidden'  };
+        return { ...state, selectedTasksIds: []};
       case "SET_SELECTED_TASKS_IDS" :
         const isSelected = state.selectedTasksIds.includes(action.payload);
         if(!isSelected) {
@@ -63,7 +61,7 @@ function App() {
   };
 
   const [state, dispatch] = useReducer( reducer, initialState );
-  const { list, visibilityDescription, selectedTasksIds } = state;
+  const { list, selectedTasksIds } = state;
 
   useEffect(() => {
     dispatch({type: 'SET_LIST', payload: getToDoListFromLS() || []});
@@ -118,14 +116,14 @@ function App() {
   };
 
   const onToggleTask = useCallback((taskId) => {
-    return dispatch({type: "SET_SELECTED_TASKS_IDS", payload: taskId})
-  }, []);
+      return dispatch({type: "SET_SELECTED_TASKS_IDS", payload: taskId})
+  }, [list]);
 
   const onToggleAllTasks = useCallback(() => {
       dispatch({type: "TOGGLE_ALL_TASKS", payload: isAllTasksSelected })
 },[list])
 
-  const showDescription = () => dispatch({type: "SHOW_DESCRIPTION"})
+  const showDescription = () => setVisibility(visibility === 'hidden' ? 'visible' : 'hidden')
 
   const onRemoveSelectedTasks = useCallback(() => {
     setShowDeleteTasksModal(false);
@@ -178,7 +176,7 @@ function App() {
           <ToDoList
               list={taskList}
               isAllTasksSelected={isAllTasksSelected}
-              visibility={visibilityDescription}
+              visibility={visibility}
               onToggleTask={onToggleTask}
               onRemoveTask={onRemoveTask}
               onToggleStatus={onToggleStatus}
