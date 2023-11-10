@@ -23,6 +23,8 @@ function App() {
     selectedTasksIds: []
   };
 
+  const CREATE_TASK = 'CREATE_TASK';
+
   const reducer = (state, action) => {
     switch (action.type){
       case "SET_LIST" :
@@ -33,28 +35,32 @@ function App() {
         return { ...state, list: state.list.filter(item => !item.isDone)};
       case "REMOVE_SELECTED_TASKS":
         return { ...state, list: state.list.filter(item => !state.selectedTasksIds.includes(item.id))};
-      case "CREATE_TASK":
-        return { ...state, list: [...state.list,{
+      case CREATE_TASK: {
+        return { ...state, list: [...state.list, {
           ...action.payload,
             id: nanoid(),
             date: new Date()
           }] }
+      }
       case "TOGGLE_STATUS":
         return{ ...state, list: state.list.map((item) => {
             if(item.id !== action.payload) return item;
             return { ...item, isDone: !item.isDone }})
         }
       case "TOGGLE_ALL_TASKS" :
-        if(!action.payload) {
+        if(!action.payload && state.list) {
           return {...state, selectedTasksIds: state.list.map((item) => item.id)};
         }
         return { ...state, selectedTasksIds: []};
-      case "SET_SELECTED_TASKS_IDS" :
+      case "TOGGLE_SELECTED_TASK_ID" :
         const isSelected = state.selectedTasksIds.includes(action.payload);
         if(!isSelected) {
-          return {state, selectedTasksIds: [ ...state.selectedTasksIds, action.payload ]};
+          const nextSelectedTasksIds = [ ...state.selectedTasksIds, action.payload ];
+          return { ...state, selectedTasksIds: nextSelectedTasksIds };
         }
-        return { ...state, selectedTasksIds: state.selectedTasksIds.filter((item) => item !== action.payload)};
+
+        const nextSelectedTasksIds = state.selectedTasksIds.filter((item) => item !== action.payload);
+        return { ...state, selectedTasksIds: nextSelectedTasksIds };
       default:
         return state;
     }
@@ -98,7 +104,7 @@ function App() {
   const onCloseDeleteCompletedTaskModal = () => setDeleteCompleteTasksModal(false);
 
   const onCreateTask = (newTaskData) => {
-    dispatch({ type: "CREATE_TASK", payload: newTaskData});
+    dispatch({ type: CREATE_TASK, payload: newTaskData});
     onCloseCreateTaskModal();
   };
 
@@ -106,22 +112,22 @@ function App() {
     dispatch({type: "DELETE_TASK", payload: removeId})
   };
 
-  const onRemoveCompleteTasks = useCallback(() => {
+  const onRemoveCompleteTasks = () => {
     dispatch({type: "REMOVE_COMPLETE_TASKS"});
     setDeleteCompleteTasksModal(false);
-  }, []);
+  };
 
   const onToggleStatus = (taskId) => {
     dispatch({type: "TOGGLE_STATUS", payload: taskId})
   };
 
-  const onToggleTask = useCallback((taskId) => {
-      return dispatch({type: "SET_SELECTED_TASKS_IDS", payload: taskId})
-  }, [list]);
+  const onToggleTask = ((taskId) => {
+      return dispatch({type: "TOGGLE_SELECTED_TASK_ID", payload: taskId})
+  });
 
-  const onToggleAllTasks = useCallback(() => {
+  const onToggleAllTasks = () => {
       dispatch({type: "TOGGLE_ALL_TASKS", payload: isAllTasksSelected })
-},[list])
+};
 
   const showDescription = () => setVisibility(visibility === 'hidden' ? 'visible' : 'hidden')
 

@@ -5,21 +5,22 @@ import styles from './Task.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import {getFormattedDate} from "../../utils/date-utils";
+import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 const Task = (props) => {
     const { data, index, onRemoveTask, onToggleStatus, onToggleTask } = props;
-    const { id, title, description, date, isDone, isSelected } = data;
+    const { id, title, date, description, isDone, isSelected } = data;
 
     const [showDescription, setShowDescription] = useState(false);
     const visibility = showDescription ? 'visible' : 'hidden';
-    const formattedDate = getFormattedDate();
+    const formattedDate = getFormattedDate(date);
 
     const onToggleShowDescription = () => setShowDescription(!showDescription);
 
     return (
         <div className={styles.taskWrapper}>
             <div className={styles.tailBox}>
-                <input type="checkbox" checked={isSelected} onChange={() => onToggleTask(id)} />
+                <CustomCheckbox checked={isSelected} onChange={() => onToggleTask(id)} />
                 <div className={styles.index}></div>
             </div>
 

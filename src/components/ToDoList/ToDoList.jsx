@@ -1,6 +1,7 @@
 import React from "react";
 import Task from "../Task/Task";
 import styles from './ToDoList.module.scss';
+import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 const ToDoList = (props) => {
     const { list, isAllTasksSelected, onRemoveTask, onToggleStatus, onToggleTask, onToggleAllTasks } = props;
@@ -8,8 +9,8 @@ const ToDoList = (props) => {
     return (
         <div className={styles.listWrapper}>
             <div>
-                <label htmlFor="selected" className="checkbox-text">Check all tasks</label>
-                <input type="checkbox" id="selected" className="all-selected-checkbox" disabled={!list.length} checked={isAllTasksSelected} onChange={onToggleAllTasks} />
+                <label htmlFor="selected" >Check all tasks</label>
+                <CustomCheckbox  id="selected" checked={isAllTasksSelected} onChange={onToggleAllTasks} />
             </div>
             <div className={styles.list}>
               {list.map((lisItem, index ) => {

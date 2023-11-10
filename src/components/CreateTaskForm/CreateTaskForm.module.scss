@@ -1,8 +1,9 @@
 .inptTxt{
+    width: 250px;
     border: 0.5px solid hsl(0, 0%, 80%);
     border-radius: 4px;
-    margin-bottom: 5px;
-    height: 20px;
+    margin-bottom: 1rem;
+    height: 30px;
 }
 
 .inptTitle{
@@ -11,6 +12,7 @@
 
 .displayFlex {
     display: flex;
+    padding-top: 1rem;
 }
   
 .flexCol {
