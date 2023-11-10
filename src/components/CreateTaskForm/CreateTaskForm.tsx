@@ -1,15 +1,24 @@
-import { useState } from "react";
-import styles from './CreateTaskForm.module.scss'
-import { Button } from "../Button/Button";
+import React, { useState } from "react";
+import {Button, ButtonType} from "../Button/Button";
+import { TaskType } from "../../App";
 import cx from 'classnames';
+import styles from './CreateTaskForm.module.scss'
 
-const initialFormData = {
-    title: '',
-    description: '',
-    isDone: false
+type CreateTaskFormPropsType = {
+    onCreateTask: (newTaskData: Pick<TaskType, 'title' | 'description'>) => void
+};
+
+type InitialFormDataType ={
+    title: string,
+    description: string,
 }
 
-export const CreateTaskForm = (props) => {
+const initialFormData: InitialFormDataType = {
+    title: '',
+    description: '',
+};
+
+export const CreateTaskForm : React.FC<CreateTaskFormPropsType> = (props)  => {
     const { onCreateTask } = props;
 
     const [taskData, setTaskData] = useState(initialFormData);
@@ -17,7 +26,7 @@ export const CreateTaskForm = (props) => {
 
     const onResetForm = () => setTaskData(initialFormData);
 
-    const onChangeTitle = (e) => {
+    const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -27,7 +36,7 @@ export const CreateTaskForm = (props) => {
         }));
     };
 
-    const onChangeDescription = (e) => {
+    const onChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -36,13 +45,13 @@ export const CreateTaskForm = (props) => {
         }));
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
         onCreateTask(taskData);
         onResetForm();
-    }
+    };
 
     return (
         <form name='createTask'
