@@ -1,9 +1,18 @@
 import React from "react";
-import Task from "../Task/Task";
+import Task, {ExtendedTaskType} from "../Task/Task";
 import styles from './ToDoList.module.scss';
 import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
-const ToDoList = (props) => {
+export type ToDoListType = {
+    list: ExtendedTaskType[],
+    isAllTasksSelected: boolean,
+    onToggleAllTasks: () => void
+    onRemoveTask: (id: string) => void,
+    onToggleStatus: (id: string) => void,
+    onToggleTask: (id: string) => void,
+}
+
+const ToDoList: React.FC<ToDoListType> = (props) => {
     const { list, isAllTasksSelected, onRemoveTask, onToggleStatus, onToggleTask, onToggleAllTasks } = props;
 
     return (
@@ -28,6 +37,6 @@ const ToDoList = (props) => {
             </div>
         </div>
     )
-}
+};
 
 export default ToDoList;

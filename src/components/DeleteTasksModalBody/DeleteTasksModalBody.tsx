@@ -1,6 +1,13 @@
+import React from "react";
+import { TaskType } from "../../App";
 import styles from './DeleteTasksModalBody.module.scss';
 
-export const DeleteTasksModalBody = ({ title, selectedTasks }) => {
+export type DeleteTasksModalBodyProps = {
+    title: string,
+    selectedTasks: TaskType[],
+};
+
+export const DeleteTasksModalBody: React.FC<DeleteTasksModalBodyProps> = ({ title, selectedTasks }) => {
     return(
         <>
           <p className={styles.modalText}>{title}</p>
@@ -11,4 +18,4 @@ export const DeleteTasksModalBody = ({ title, selectedTasks }) => {
           </div>
         </>
     )
-}
+};

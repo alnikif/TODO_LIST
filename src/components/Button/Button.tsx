@@ -5,14 +5,14 @@ import React, {FC, ReactNode} from "react";
 export enum ButtonType {
     action = 'action',
     close = 'close'
-}
+};
 
 export type ButtonProps = {
     type: ButtonType | number;
     disabled?: boolean;
-    children: ReactNode;
+    children?: ReactNode;
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
 export const Button: FC<ButtonProps> = (props) => {
     const { disabled, children, type, onClick } = props;
@@ -29,4 +29,5 @@ export const Button: FC<ButtonProps> = (props) => {
             {children}
         </button>
     )
-}
+};
+

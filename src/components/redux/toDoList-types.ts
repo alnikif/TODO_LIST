@@ -10,5 +10,3 @@ export type ToDoListStateType = {
 };
 
 export type TaskTypeItems = Partial<Omit<TaskType, 'id, isDone'>>;
-
-//Partial<taskType

@@ -1,8 +1,15 @@
-import { Button } from '../Button/Button';
+import React from "react";
+import { Button, ButtonType } from '../Button/Button';
 import styles from './Modal.module.scss';
 import cx from 'classnames';
 
-export const Modal = (props) => {
+export type ModalPropsType = {
+    children: React.ReactNode,
+    onClose: () => void,
+    onAccept?: () => void,
+};
+
+export const Modal: React.FC<ModalPropsType> = (props) => {
     let { children, onAccept, onClose } = props;
 
     if (!children) {
@@ -18,8 +25,8 @@ export const Modal = (props) => {
                 styles.itemsCenter
             )}>
                 {children}
-                {onAccept && <Button type='action' onClick={onAccept}>Agree</Button>}
-                <Button onClick={onClose} type='close'></Button>
+                {onAccept && <Button type={ButtonType.action} onClick={onAccept}>Agree</Button>}
+                <Button onClick={onClose} type={ButtonType.close}></Button>
             </div>
         </div>
     );

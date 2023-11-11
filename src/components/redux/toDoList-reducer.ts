@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ToDoListStateType, TaskTypeItems } from './toDoList-types';
-import { DispatchType } from '../store';
+// import { DispatchType } from 'react-redux';
 
 
 
@@ -21,8 +21,7 @@ export const toDoListSlice = createSlice({
 });
 
 export const {
-   addTaskItem
+    addTaskItem
 } = toDoListSlice.actions;
 
 export default toDoListSlice.reducer;
-

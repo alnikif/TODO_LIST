@@ -1,13 +1,24 @@
+import React from'react';
 import { useState } from "react";
 import { SliderCheckbox } from '../SliderCheckbox/SliderCheckbox';
 import styles from './Task.module.scss'
-// import { toContainElement } from "@testing-library/jest-dom/matchers";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import {getFormattedDate} from "../../utils/date-utils";
 import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
+import {TaskType} from "../../App";
 
-const Task = (props) => {
+export type ExtendedTaskType = TaskType & {isSelected: boolean};
+
+export type TaskPropsType = {
+    index: number,
+    data: ExtendedTaskType,
+    onRemoveTask: (id: string) => void,
+    onToggleStatus: (id: string) => void,
+    onToggleTask: (id: string) => void,
+};
+
+const Task: React.FC<TaskPropsType> = (props) => {
     const { data, index, onRemoveTask, onToggleStatus, onToggleTask } = props;
     const { id, title, date, description, isDone, isSelected } = data;
 
@@ -34,7 +45,7 @@ const Task = (props) => {
             </div>
         </div>
     );
-}
+};
 
 export default Task;
 

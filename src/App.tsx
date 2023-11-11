@@ -99,7 +99,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!list) return;
+    if (!list.length) return;
     setToDoListToLS(list);
   }, [list]);
 
@@ -108,7 +108,7 @@ function App() {
   ), [list, selectedTasksIds]);
 
   const isAllTasksSelected = useMemo(()=> (
-      Array.isArray(list) && list.length && list.every((item) => selectedTasksIds.includes(item.id))
+      Array.isArray(list) && list.length > 0 && list.every((item) => selectedTasksIds.includes(item.id))
   ), [list, selectedTasksIds]);
 
   const selectedTasks = useMemo(() => (

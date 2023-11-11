@@ -11,7 +11,7 @@ type CreateTaskFormPropsType = {
 type InitialFormDataType ={
     title: string,
     description: string,
-}
+};
 
 const initialFormData: InitialFormDataType = {
     title: '',
@@ -48,7 +48,6 @@ export const CreateTaskForm : React.FC<CreateTaskFormPropsType> = (props)  => {
     const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-
         onCreateTask(taskData);
         onResetForm();
     };
