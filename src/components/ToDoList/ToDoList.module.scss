@@ -14,7 +14,12 @@
   align-items: center;
   padding-top: 20px;
 }
-//input[type="checkbox"]:checked {
-//  display: none;
-//}
+label{
+  display: inline;
+}
 
+.checkbox{
+  display: flex;
+  gap: 0.3rem;
+  font-weight: lighter;
+}

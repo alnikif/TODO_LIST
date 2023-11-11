@@ -10,17 +10,15 @@
   border: 0.5px solid #6370f0;
   border-radius: 10px;
   color: #595959;
+  background-color: white;
 
   .tailBox {
     display: flex;
     flex-direction: row;
+    gap: 0.3rem;
     justify-content: flex-start;
     align-items: center;
     position: relative;
-  }
-
-  .index {
-
   }
 
   .date {

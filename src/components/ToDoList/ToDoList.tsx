@@ -17,10 +17,9 @@ const ToDoList: React.FC<ToDoListType> = (props) => {
 
     return (
         <div className={styles.listWrapper}>
-            <div>
-                <label>Check all tasks
-                    <CustomCheckbox  checked={isAllTasksSelected} onChange={onToggleAllTasks} />
-                </label>
+            <div className={styles.checkbox}>
+                <CustomCheckbox  checked={isAllTasksSelected} onChange={onToggleAllTasks} />
+                <label>Check all tasks</label>
             </div>
             <div className={styles.list}>
               {list.map((lisItem, index ) => {
