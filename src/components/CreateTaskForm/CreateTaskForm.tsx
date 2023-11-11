@@ -45,7 +45,7 @@ export const CreateTaskForm : React.FC<CreateTaskFormPropsType> = (props)  => {
         }));
     };
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -65,7 +65,7 @@ export const CreateTaskForm : React.FC<CreateTaskFormPropsType> = (props)  => {
             <input type="text" id="title" className={styles.inptTxt} value={title} onChange={onChangeTitle} />
             <label htmlFor="description" className={styles.inptTitle}>Description</label>
             <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDescription} />
-            <Button onClick={onSubmit} type={title.length && 'action'}>ADD</Button>
+            <Button onClick={onSubmit} type={title.length && ButtonType.action}>ADD</Button>
         </form>
     );
 };

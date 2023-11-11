@@ -8,10 +8,10 @@ export enum ButtonType {
 }
 
 export type ButtonProps = {
-    type: ButtonType;
+    type: ButtonType | number;
     disabled?: boolean;
     children: ReactNode;
-    onClick: (e: React.FormEvent<HTMLFormElement>) => void;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Button: FC<ButtonProps> = (props) => {

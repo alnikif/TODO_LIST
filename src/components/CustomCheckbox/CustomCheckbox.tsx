@@ -1,7 +1,14 @@
+import React from 'react';
 import cx from 'classnames';
 import styles from './CustomCheckbox.module.scss';
-export const CustomCheckbox = ({onChange, checked}) => {
-    const onClick = (e) => {
+
+export type CustomCheckboxProps = {
+    onChange: () => void,
+    checked: boolean,
+}
+
+export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({onChange, checked}: CustomCheckboxProps) => {
+    const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         onChange();

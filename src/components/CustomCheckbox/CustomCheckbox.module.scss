@@ -1,31 +1,28 @@
-/* Создаем кастомный стиль для контейнера чекбокса */
 .checkboxContainer {
   position: relative;
   cursor: pointer;
 }
 
-/* Создаем стиль для кастомного чекбокса */
 .customCheckbox {
   position: absolute;
   top: 0;
   left: 0;
   width: 20px;
   height: 20px;
-  background-color: #ddd; /* цвет фона неотмеченного чекбокса */
-  border: 1px solid #aaa; /* цвет рамки */
+  background-color: #ddd;
+  border: 1px solid #aaa;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px; /* размер шрифта галочки */
-  color: #fff; /* цвет галочки */
+  font-size: 14px;
+  color: #fff;
+  transition: all 0.5s;
 }
 
-/* Стиль для отмеченного состояния */
 .customCheckbox.checked {
-  background-color: #5cb85c; /* цвет фона отмеченного чекбокса */
+  background-color: #6370f0;
 }
 
-/* Стиль для галочки внутри отмеченного чекбокса */
 .customCheckbox.checked::before {
-  content: '\2713'; /* символ галочки в unicode */
+  content: '\2713';
 }
