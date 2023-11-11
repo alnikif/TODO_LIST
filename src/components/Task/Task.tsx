@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import {getFormattedDate} from "../../utils/date-utils";
 import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
+import cx from 'classnames';
 import {TaskType} from "../../App";
 
 export type ExtendedTaskType = TaskType & {isSelected: boolean};
@@ -36,7 +37,13 @@ const Task: React.FC<TaskPropsType> = (props) => {
             </div>
 
             <div className={styles.date} onClick={onToggleShowDescription}>{formattedDate}</div>
-            <div className={styles.title} onClick={onToggleShowDescription}>{index + 1}. {title}</div>
+            <div className={
+                cx(styles.title,
+                    isDone && styles.isDoneTitle)}
+                 onClick={onToggleShowDescription}
+            >
+                {index + 1}. {title}
+            </div>
             <p className={styles.description} style={{visibility: visibility}}>{description}</p>
 
             <div className={styles.tailBox}>
