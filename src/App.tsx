@@ -9,8 +9,9 @@ import { DeleteTasksModalBody } from "./components/DeleteTasksModalBody/DeleteTa
 import {Button, ButtonType} from './components/Button/Button';
 import {getToDoListFromLS, setToDoListToLS} from "./utils/local-storage-utils";
 import { reducer ,Actions } from './components/reducer/reducer';
-import {UpdateTaskModalBody} from "./components/UpdateTaskModalBody/UpdateTaskModalBody";
+import {UpdateTaskForm} from "./components/UpdateTaskForm/UpdateTaskForm";
 import './App.scss';
+import task from "./components/Task/Task";
 
   export type TaskType = {
     title: string,
@@ -41,7 +42,7 @@ function App() {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
-  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
+  const [updateTaskId, setUpdateTaskId] = useState<string | null>(null);
   const [state, dispatch] = useReducer(reducer, initialState); // rename
   const { list, selectedTasksIds } = state;
 
@@ -70,11 +71,17 @@ function App() {
       taskList.filter((item) => item.isDone)
   ), [taskList]);
 
+  const updateTask = useMemo(() => {
+    if(!updateTaskId) return null;
+    const targetTask = taskList.find((item) => item.id === updateTaskId)
+   return targetTask || null;
+  }, [taskList, updateTaskId]);
+
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
   const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
 
-  const onOpenUpdateTaskModal = () => setShowUpdateTaskModal(true);
-  const onCloseUpdateTaskModal = () => setShowUpdateTaskModal(false);
+  const onOpenUpdateTaskModal = (taskId: string) => setUpdateTaskId(taskId);
+  const onCloseUpdateTaskModal = () => setUpdateTaskId(null);
 
 
   const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
@@ -114,9 +121,11 @@ function App() {
     dispatch({type: Actions.removeSelectedTasks})
   }, [list]);
 
-  const onGetTaskValue = (taskId:string)  => {
+  const onUpdateTask = useCallback((updateTask: Pick<TaskType, 'title' | 'description' | 'id'>) => {
+    dispatch({type: Actions.updateTask, payload: updateTask})
+    setUpdateTaskId(null);
+  }, [list]);
 
-  }
   return (
       <Providers>
         <div className='container'>
@@ -155,15 +164,14 @@ function App() {
                 </Modal>
               </Portal>
           )}
-          {showUpdateTaskModal && (
+          {updateTaskId && updateTask && (
               <Portal>
                 <Modal
-                    onAccept={onRemoveCompleteTasks}
                     onClose={onCloseUpdateTaskModal}
                 >
-                  <UpdateTaskModalBody
-
-
+                  <UpdateTaskForm
+                    task={updateTask}
+                    onUpdateTask={onUpdateTask}
                   />
                 </Modal>
               </Portal>

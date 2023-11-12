@@ -17,7 +17,7 @@ export type TaskPropsType = {
     onRemoveTask: (id: string) => void,
     onToggleStatus: (id: string) => void,
     onToggleTask: (id: string) => void,
-    onOpenUpdateTaskModal: () => void
+    onOpenUpdateTaskModal: (id: string) => void
 };
 
 const Task: React.FC<TaskPropsType> = (props) => {
@@ -52,7 +52,7 @@ const Task: React.FC<TaskPropsType> = (props) => {
             <div className={styles.tailBox}>
                 <SliderCheckbox isDone={isDone} onChange={() => onToggleStatus(id)} />
                 <div className={styles.removeItem} onClick={() => onRemoveTask(id)} ><FontAwesomeIcon icon={faTrash} /></div>
-                <div className={styles.updateItem} onClick={onOpenUpdateTaskModal} ><FontAwesomeIcon icon={faPencil} /></div>
+                <div className={styles.updateItem} onClick={() => onOpenUpdateTaskModal(id)} ><FontAwesomeIcon icon={faPencil} /></div>
             </div>
         </div>
     );

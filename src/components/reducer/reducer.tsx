@@ -10,6 +10,7 @@ export enum Actions {
     toggleStatus = 'TOGGLE_STATUS',
     toggleAllTasks = 'TOGGLE_ALL_TASKS',
     toggleSelectedTaskId = 'TOGGLE_SELECTED_TASK_ID',
+    updateTask = 'UPDATE_TASK'
 }
 
 export const reducer = (state: StateType, action: ActionType): StateType => {
@@ -57,6 +58,12 @@ export const reducer = (state: StateType, action: ActionType): StateType => {
 
             return { ...state, selectedTasksIds: nextSelectedTasksIds };
 
+            case Actions.updateTask :
+                return {...state, list: state.list.map((item) => {
+                        if(item.id!== action.payload.id) return item;
+                        return {...item, title: action.payload.title, description: action.payload.description}
+                    })
+                }
 
         default:
             return state;

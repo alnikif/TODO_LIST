@@ -10,7 +10,7 @@ export type ToDoListType = {
     onRemoveTask: (id: string) => void,
     onToggleStatus: (id: string) => void,
     onToggleTask: (id: string) => void,
-    onOpenUpdateTaskModal: () => void
+    onOpenUpdateTaskModal: (id: string) => void
 }
 
 const ToDoList: React.FC<ToDoListType> = (props) => {
