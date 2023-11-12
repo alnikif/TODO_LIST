@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import {Button, ButtonType} from "../Button/Button";
 import { TaskType } from "../../App";
-import cx from 'classnames';
-import styles from './CreateTaskForm.module.scss'
+import {TaskForm} from "../TaskForm/TaskForm";
 
 type CreateTaskFormPropsType = {
     onCreateTask: (newTaskData: Pick<TaskType, 'title' | 'description'>) => void
@@ -53,18 +51,14 @@ export const CreateTaskForm : React.FC<CreateTaskFormPropsType> = (props)  => {
     };
 
     return (
-        <form name='createTask'
-              className={cx(
-                  styles.displayFlex,
-                  styles.flexCol,
-                  styles.justifyCenter,
-                  styles.itemsCenter
-              )}>
-            <label htmlFor="title" className={styles.inptTittle}>Title</label>
-            <input type="text" id="title" className={styles.inptTxt} value={title} onChange={onChangeTitle} />
-            <label htmlFor="description" className={styles.inptTitle}>Description</label>
-            <input type="text" id="description" className={styles.inptTxt} value={description} onChange={onChangeDescription} />
-            <Button onClick={onSubmit} type={title.length && ButtonType.action}>ADD</Button>
-        </form>
+        <TaskForm
+            formName='createTask'
+            title={title}
+            description={description}
+            onResetForm={onResetForm}
+            onChangeTitle={onChangeTitle}
+            onChangeDescription={onChangeDescription}
+            onSubmit={onSubmit}
+        />
     );
 };
