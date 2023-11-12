@@ -10,10 +10,11 @@ export type ToDoListType = {
     onRemoveTask: (id: string) => void,
     onToggleStatus: (id: string) => void,
     onToggleTask: (id: string) => void,
+    onOpenUpdateTaskModal: () => void
 }
 
 const ToDoList: React.FC<ToDoListType> = (props) => {
-    const { list, isAllTasksSelected, onRemoveTask, onToggleStatus, onToggleTask, onToggleAllTasks } = props;
+    const { list, isAllTasksSelected, onRemoveTask, onToggleStatus, onToggleTask, onToggleAllTasks, onOpenUpdateTaskModal } = props;
 
     return (
         <div className={styles.listWrapper}>
@@ -30,6 +31,7 @@ const ToDoList: React.FC<ToDoListType> = (props) => {
                         onRemoveTask={onRemoveTask}
                         onToggleStatus={onToggleStatus}
                         onToggleTask={onToggleTask}
+                        onOpenUpdateTaskModal={onOpenUpdateTaskModal}
                     />
                     );
                 })}

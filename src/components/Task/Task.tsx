@@ -1,13 +1,13 @@
 import React from'react';
 import { useState } from "react";
 import { SliderCheckbox } from '../SliderCheckbox/SliderCheckbox';
-import styles from './Task.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import {getFormattedDate} from "../../utils/date-utils";
-import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
+import { faTrash,  faPencil } from '@fortawesome/free-solid-svg-icons'
+import { getFormattedDate } from "../../utils/date-utils";
+import { CustomCheckbox } from "../CustomCheckbox/CustomCheckbox";
 import cx from 'classnames';
 import {TaskType} from "../../App";
+import styles from './Task.module.scss'
 
 export type ExtendedTaskType = TaskType & {isSelected: boolean};
 
@@ -17,15 +17,18 @@ export type TaskPropsType = {
     onRemoveTask: (id: string) => void,
     onToggleStatus: (id: string) => void,
     onToggleTask: (id: string) => void,
+    onOpenUpdateTaskModal: () => void
 };
 
 const Task: React.FC<TaskPropsType> = (props) => {
-    const { data, index, onRemoveTask, onToggleStatus, onToggleTask } = props;
+    const { data, index, onRemoveTask, onToggleStatus, onToggleTask, onOpenUpdateTaskModal } = props;
     const { id, title, date, description, isDone, isSelected } = data;
 
     const [showDescription, setShowDescription] = useState(false);
+
     const visibility = showDescription ? 'visible' : 'hidden';
     const formattedDate = getFormattedDate(date);
+
 
     const onToggleShowDescription = () => setShowDescription(!showDescription);
 
@@ -49,6 +52,7 @@ const Task: React.FC<TaskPropsType> = (props) => {
             <div className={styles.tailBox}>
                 <SliderCheckbox isDone={isDone} onChange={() => onToggleStatus(id)} />
                 <div className={styles.removeItem} onClick={() => onRemoveTask(id)} ><FontAwesomeIcon icon={faTrash} /></div>
+                <div className={styles.updateItem} onClick={onOpenUpdateTaskModal} ><FontAwesomeIcon icon={faPencil} /></div>
             </div>
         </div>
     );

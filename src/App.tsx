@@ -8,6 +8,8 @@ import { Portal } from "./components/Portal";
 import { DeleteTasksModalBody } from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
 import {Button, ButtonType} from './components/Button/Button';
 import {getToDoListFromLS, setToDoListToLS} from "./utils/local-storage-utils";
+import { reducer ,Actions } from './components/reducer/reducer';
+import {UpdateTaskModalBody} from "./components/UpdateTaskModalBody/UpdateTaskModalBody";
 import './App.scss';
 
   export type TaskType = {
@@ -18,79 +20,28 @@ import './App.scss';
     date: Date
   };
 
-  type StateType = {
+  export type StateType = {
     list: TaskType[],
-    selectedTasksIds: string[]
-  }
+    selectedTasksIds: string[],
 
-  enum Actions {
-    setList = 'SET_LIST',
-    deleteTask = 'DELETE_TASK',
-    removeCompleteTasks = 'REMOVE_COMPLETE_TASKS',
-    removeSelectedTasks = 'REMOVE_SELECTED_TASKS',
-    createTask = 'CREATE_TASK',
-    toggleStatus = 'TOGGLE_STATUS',
-    toggleAllTasks = 'TOGGLE_ALL_TASKS',
-    toggleSelectedTaskId = 'TOGGLE_SELECTED_TASK_ID',
   }
 
   const initialState: StateType = {
     list: [],
-    selectedTasksIds: []
+    selectedTasksIds: [],
+
   };
 
-  type ActionType = {
+ export type ActionType = {
     type: Actions;
     payload?: any;
-  };
-
-  const reducer = (state: StateType, action: ActionType): StateType => {
-    switch (action.type) {
-      case Actions.setList :
-        return { ...state, list : action.payload};
-      case Actions.deleteTask :
-        return { ...state, list : state.list.filter((item) => item.id !== action.payload)};
-      case Actions.removeCompleteTasks:
-        return { ...state, list: state.list.filter(item => !item.isDone)};
-      case Actions.removeSelectedTasks:
-        return { ...state, list: state.list.filter(item => !state.selectedTasksIds.includes(item.id))};
-      case Actions.createTask: {
-        return { ...state, list: [...state.list, {
-          ...action.payload,
-            isDone: false,
-            id: nanoid(),
-            date: new Date()
-          }] }
-      }
-      case Actions.toggleStatus:
-        return{ ...state, list: state.list.map((item) => {
-            if(item.id !== action.payload) return item;
-            return { ...item, isDone: !item.isDone }})
-        }
-      case Actions.toggleAllTasks :
-        if(!action.payload && state.list) {
-          return {...state, selectedTasksIds: state.list.map((item) => item.id)};
-        }
-        return { ...state, selectedTasksIds: []};
-      case Actions.toggleSelectedTaskId :
-        const isSelected = state.selectedTasksIds.includes(action.payload);
-        if(!isSelected) {
-          const nextSelectedTasksIds = [ ...state.selectedTasksIds, action.payload ];
-          return { ...state, selectedTasksIds: nextSelectedTasksIds };
-        }
-
-        const nextSelectedTasksIds = state.selectedTasksIds.filter((item) => item !== action.payload);
-        return { ...state, selectedTasksIds: nextSelectedTasksIds };
-      default:
-        return state;
-    }
   };
 
 function App() {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
-
+  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState); // rename
   const { list, selectedTasksIds } = state;
 
@@ -121,6 +72,10 @@ function App() {
 
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
   const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
+
+  const onOpenUpdateTaskModal = () => setShowUpdateTaskModal(true);
+  const onCloseUpdateTaskModal = () => setShowUpdateTaskModal(false);
+
 
   const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
   const onCloseDeleteSelectedTasksModal = () => setShowDeleteTasksModal(false);
@@ -159,6 +114,9 @@ function App() {
     dispatch({type: Actions.removeSelectedTasks})
   }, [list]);
 
+  const onGetTaskValue = (taskId:string)  => {
+
+  }
   return (
       <Providers>
         <div className='container'>
@@ -197,6 +155,19 @@ function App() {
                 </Modal>
               </Portal>
           )}
+          {showUpdateTaskModal && (
+              <Portal>
+                <Modal
+                    onAccept={onRemoveCompleteTasks}
+                    onClose={onCloseUpdateTaskModal}
+                >
+                  <UpdateTaskModalBody
+
+
+                  />
+                </Modal>
+              </Portal>
+          )}
           <Button type={ButtonType.action} disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
             Remove selected tasks
           </Button>
@@ -209,6 +180,7 @@ function App() {
               onRemoveTask={onRemoveTask}
               onToggleStatus={onToggleStatus}
               onToggleAllTasks={onToggleAllTasks}
+              onOpenUpdateTaskModal={onOpenUpdateTaskModal}
           />
         </div>
       </Providers>
