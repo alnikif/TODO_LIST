@@ -16,7 +16,6 @@ const initialFormData: UpdatedTaskFormProps = {
 
 
 
-
 export const UpdateTaskForm : React.FC<UpdateTaskFormPropsType> = (props)  => {
     const { task, onUpdateTask } = props;
 
@@ -24,8 +23,9 @@ export const UpdateTaskForm : React.FC<UpdateTaskFormPropsType> = (props)  => {
     const {title, description} = taskData;
     useEffect(() => {
         setTaskData(task)
-        return () => setTaskData(initialFormData)
     }, [task]);
+
+    const onResetForm = () => setTaskData(initialFormData);
 
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -50,6 +50,7 @@ export const UpdateTaskForm : React.FC<UpdateTaskFormPropsType> = (props)  => {
         e.preventDefault();
         e.stopPropagation();
         onUpdateTask({...taskData, id: task.id});
+        onResetForm();
     };
 
     return (
@@ -60,6 +61,7 @@ export const UpdateTaskForm : React.FC<UpdateTaskFormPropsType> = (props)  => {
             onChangeTitle={onChangeTitle}
             onChangeDescription={onChangeDescription}
             onSubmit={onSubmit}
+            onResetForm={onResetForm}
         />
     );
 };
