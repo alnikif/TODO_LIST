@@ -7,20 +7,17 @@
   justify-content: space-between;
   padding: 5px 20px;
   margin: 5px 0;
-  border: 0.5px solid #6370f0;
   border-radius: 10px;
   color: #595959;
+  background-color: white;
 
   .tailBox {
     display: flex;
     flex-direction: row;
+    gap: 0.3rem;
     justify-content: flex-start;
     align-items: center;
     position: relative;
-  }
-
-  .index {
-
   }
 
   .date {
@@ -36,7 +33,12 @@
     align-items: center;
     padding: 0 15px;
     text-transform: capitalize;
+    font-weight: 500;
     box-sizing: border-box;
+  }
+
+  .isDoneTitle{
+    text-decoration: line-through;
   }
 
   .description {
@@ -45,6 +47,8 @@
     font-weight: 300;
     margin-top: 0.5rem;
     margin-right: 0.5rem;
+    overflow: visible;
+    width: 250px;
   }
 
   .slider {
@@ -52,8 +56,11 @@
   }
 
   .removeItem {
-    color: #6370f0;
+    color: grey;
     padding-left: 5px;
     font-size: 12px;
+  }
+  .updateItem {
+    @extend .removeItem
   }
 }

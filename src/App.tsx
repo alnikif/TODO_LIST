@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import './App.scss';
+import React, {useCallback, useEffect, useMemo, useState, useReducer} from 'react';
 import { CreateTaskForm } from './components/CreateTaskForm/CreateTaskForm';
 import Providers from './Providers';
 import ToDoList from './components/ToDoList/ToDoList';
@@ -7,24 +6,52 @@ import { nanoid } from "@reduxjs/toolkit";
 import { Modal } from "./components/Modal/Modal";
 import { Portal } from "./components/Portal";
 import { DeleteTasksModalBody } from "./components/DeleteTasksModalBody/DeleteTasksModalBody";
-import { Button } from './components/Button/Button';
+import {Button, ButtonType} from './components/Button/Button';
 import {getToDoListFromLS, setToDoListToLS} from "./utils/local-storage-utils";
+import { reducer ,Actions } from './components/reducer/reducer';
+import {UpdateTaskForm} from "./components/UpdateTaskForm/UpdateTaskForm";
+import './App.scss';
+import task from "./components/Task/Task";
+
+  export type TaskType = {
+    title: string,
+    description: string,
+    id: string,
+    isDone: boolean,
+    date: Date
+  };
+
+  export type StateType = {
+    list: TaskType[],
+    selectedTasksIds: string[],
+
+  }
+
+  const initialState: StateType = {
+    list: [],
+    selectedTasksIds: [],
+
+  };
+
+ export type ActionType = {
+    type: Actions;
+    payload?: any;
+  };
 
 function App() {
-  const [list, setList] = useState(null);
-  const [selectedTasksIds, setSelectedTasksIds] = useState([]);
-  const [visibility , setVisibility] = useState('hidden');
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
+  const [updateTaskId, setUpdateTaskId] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(reducer, initialState); // rename
+  const { list, selectedTasksIds } = state;
 
   useEffect(() => {
-    const initialToDoList = getToDoListFromLS() || [];
-    setList(initialToDoList);
+    dispatch({type: Actions.setList, payload: getToDoListFromLS() || []});
   }, []);
 
   useEffect(() => {
-    if (!list) return;
+    if (!list.length) return;
     setToDoListToLS(list);
   }, [list]);
 
@@ -33,7 +60,7 @@ function App() {
   ), [list, selectedTasksIds]);
 
   const isAllTasksSelected = useMemo(()=> (
-      Array.isArray(list) && list.length && list.every((item) => selectedTasksIds.includes(item.id))
+      Array.isArray(list) && list.length > 0 && list.every((item) => selectedTasksIds.includes(item.id))
   ), [list, selectedTasksIds]);
 
   const selectedTasks = useMemo(() => (
@@ -44,8 +71,18 @@ function App() {
       taskList.filter((item) => item.isDone)
   ), [taskList]);
 
+  const updateTask = useMemo(() => {
+    if(!updateTaskId) return null;
+    const targetTask = taskList.find((item) => item.id === updateTaskId)
+   return targetTask || null;
+  }, [taskList, updateTaskId]);
+
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
   const onCloseCreateTaskModal = () => setShowAddTaskModal(false);
+
+  const onOpenUpdateTaskModal = (taskId: string) => setUpdateTaskId(taskId);
+  const onCloseUpdateTaskModal = () => setUpdateTaskId(null);
+
 
   const onOpenDeleteSelectedTasksModal = () => setShowDeleteTasksModal(true);
   const onCloseDeleteSelectedTasksModal = () => setShowDeleteTasksModal(false);
@@ -53,62 +90,47 @@ function App() {
   const onOpenDeleteCompletedTaskModal = () => setDeleteCompleteTasksModal(true);
   const onCloseDeleteCompletedTaskModal = () => setDeleteCompleteTasksModal(false);
 
-  const onCreateTask = (newTaskData) => {
-    const newTask = {
-      ...newTaskData,
-      id: nanoid(),
-      date: new Date(),
-    };
-
-    setList((prevList) => ([ ...prevList, newTask ]));
+  const onCreateTask = (newTaskData: Pick<TaskType, 'title' | 'description'>) => {
+    dispatch({ type: Actions.createTask, payload: newTaskData});
     onCloseCreateTaskModal();
   };
 
-  const onRemoveTask = (removeId) => {
-    setList((prevList) => (prevList.filter((item) => item.id !== removeId)));
+  const onRemoveTask = (removeId: string) => {
+    dispatch({type: Actions.deleteTask, payload: removeId})
   };
 
-  const onRemoveCompletedTasks = useCallback(() => {
-    const newList = list.filter(item => !item.isDone);
+  const onRemoveCompleteTasks = () => {
+    dispatch({type: Actions.removeCompleteTasks});
     setDeleteCompleteTasksModal(false);
-    setList(newList);
-  }, [list]);
-
-  const onToggleStatus = (taskId) => {
-    setList((prevList) => (prevList.map((item) => {
-      if(item.id !== taskId) return item;
-      return { ...item, isDone: !item.isDone };
-    })));
   };
 
-  const onToggleTask = useCallback((taskId) => {
-    const isSelected = selectedTasksIds.includes(taskId);
-    if(!isSelected) {
-      return setSelectedTasksIds([...selectedTasksIds, taskId]);
-    }
-    return setSelectedTasksIds(selectedTasksIds.filter((item) => item !== taskId));
-  }, [selectedTasksIds]);
+  const onToggleStatus = (taskId: string) => {
+    dispatch({type: Actions.toggleStatus, payload: taskId})
+  };
 
-  const onToggleAllTasks = useCallback(() => {
-    if(!isAllTasksSelected) {
-      return setSelectedTasksIds(list.map((item) => item.id));
-    }
-    return setSelectedTasksIds([]);
-  }, [list]);
+  const onToggleTask = ((taskId: string) => {
+      return dispatch({type: Actions.toggleSelectedTaskId, payload: taskId})
+  });
 
-  const showDescription = () => setVisibility(visibility === 'hidden' ? 'visible' : 'hidden');
+  const onToggleAllTasks = () => {
+      dispatch({type: Actions.toggleAllTasks, payload: isAllTasksSelected })
+  };
 
   const onRemoveSelectedTasks = useCallback(() => {
-    const selectedList = list.filter(item => !selectedTasksIds.includes(item.id));
     setShowDeleteTasksModal(false);
-    setList(selectedList);
+    dispatch({type: Actions.removeSelectedTasks})
+  }, [list]);
+
+  const onUpdateTask = useCallback((updateTask: Pick<TaskType, 'title' | 'description' | 'id'>) => {
+    dispatch({type: Actions.updateTask, payload: updateTask})
+    setUpdateTaskId(null);
   }, [list]);
 
   return (
       <Providers>
         <div className='container'>
           <h1>TODO LIST</h1>
-          <Button onClick={onOpenCreateTaskModal} type='action'>Add task</Button>
+          <Button onClick={onOpenCreateTaskModal} type={ButtonType.action}>Add task</Button>
           {showAddTaskModal && (
               <Portal>
                 <Modal onClose={onCloseCreateTaskModal}>
@@ -132,7 +154,7 @@ function App() {
           {deleteCompleteTasksModal && (
               <Portal>
                 <Modal
-                    onAccept={onRemoveCompletedTasks}
+                    onAccept={onRemoveCompleteTasks}
                     onClose={onCloseDeleteCompletedTaskModal}
                 >
                   <DeleteTasksModalBody
@@ -142,20 +164,31 @@ function App() {
                 </Modal>
               </Portal>
           )}
-          <Button type="action" disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
+          {updateTaskId && updateTask && (
+              <Portal>
+                <Modal
+                    onClose={onCloseUpdateTaskModal}
+                >
+                  <UpdateTaskForm
+                    task={updateTask}
+                    onUpdateTask={onUpdateTask}
+                  />
+                </Modal>
+              </Portal>
+          )}
+          <Button type={ButtonType.action} disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
             Remove selected tasks
           </Button>
-          <Button type='action' disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
+          <Button type={ButtonType.action} disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
             Remove completed tasks</Button>
           <ToDoList
               list={taskList}
               isAllTasksSelected={isAllTasksSelected}
-              visibility={visibility}
               onToggleTask={onToggleTask}
               onRemoveTask={onRemoveTask}
               onToggleStatus={onToggleStatus}
               onToggleAllTasks={onToggleAllTasks}
-              showDescription={showDescription}
+              onOpenUpdateTaskModal={onOpenUpdateTaskModal}
           />
         </div>
       </Providers>
