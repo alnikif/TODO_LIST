@@ -1,12 +1,12 @@
 import React from'react';
 import { useState } from "react";
+import cx from 'classnames';
 import { SliderCheckbox } from '../SliderCheckbox/SliderCheckbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash,  faPencil } from '@fortawesome/free-solid-svg-icons'
 import { getFormattedDate } from "../../utils/date-utils";
 import { CustomCheckbox } from "../CustomCheckbox/CustomCheckbox";
-import cx from 'classnames';
-import {TaskType} from "../../App";
+import {TaskType} from "../../Pages/ToDoList/ToDoListReducer";
 import styles from './Task.module.scss'
 
 export type ExtendedTaskType = TaskType & {isSelected: boolean};

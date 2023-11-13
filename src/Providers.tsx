@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
+import ReduxProvider from "./Providers/ReduxProvider";
+import ThemeProvider from "./Providers/ThemeProvider";
 
 type ProvidersType = {
     children: ReactNode;
@@ -8,10 +8,13 @@ type ProvidersType = {
 
 const Providers: FC<ProvidersType> = (props) => {
     const { children } = props;
+
     return(
-        <Provider store={store}>
-            {children}
-        </Provider>
+        <ThemeProvider>
+            <ReduxProvider>
+                {children}
+            </ReduxProvider>
+        </ThemeProvider>
     )
 };
 

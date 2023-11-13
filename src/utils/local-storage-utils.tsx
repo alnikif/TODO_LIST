@@ -1,4 +1,4 @@
-import {TaskType} from "../App";
+import {TaskType} from "../Pages/ToDoList/ToDoListReducer";
 
 export const LS_KEYS = {
     toDoList: 'todo-list',

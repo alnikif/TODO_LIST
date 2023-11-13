@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TaskType } from "../../App";
+import { TaskType } from "../../Pages/ToDoList/ToDoListReducer";
 import {TaskForm} from "../TaskForm/TaskForm";
 
 type CreateTaskFormPropsType = {

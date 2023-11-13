@@ -1,5 +1,5 @@
 import React from "react";
-import { TaskType } from "../../App";
+import { TaskType } from "../../Pages/ToDoList/ToDoListReducer";
 import styles from './DeleteTasksModalBody.module.scss';
 
 export type DeleteTasksModalBodyProps = {

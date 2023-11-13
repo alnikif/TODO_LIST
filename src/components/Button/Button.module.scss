@@ -1,3 +1,5 @@
+@import '../../constants/themeTokens.module.scss';
+
 .btn{
     margin: 5px;
     border: 0.5px solid #cccccc;
@@ -9,7 +11,7 @@
     transition: all 0.5s;
 }
 .action{
-    background-color: #6370f0;
+    background-color: $button-background;
     color: white;
 }
 .action:disabled{
