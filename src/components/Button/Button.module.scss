@@ -9,10 +9,16 @@
     font-size: 16px;
     font-weight: bold;
     transition: all 0.5s;
+    box-sizing: border-box;
 }
 .action{
     background-color: $button-background;
     color: white;
+    &:hover {
+        background-color: $button-background-hover;
+        color: black;
+        border-color: black;
+    }
 }
 .action:disabled{
     background-color: #aaaaaa;

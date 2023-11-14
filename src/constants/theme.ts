@@ -9,7 +9,7 @@ export type Theme = {
     constants: Record<string, string>;
 }
 
-export const DEFAULT_THEME = Themes.dark;
+export const DEFAULT_THEME = Themes.light;
 
 export const themesTokensConstants = {
     [Themes.light]: {

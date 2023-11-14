@@ -4,12 +4,12 @@ import {changeThemesConstants} from "../utils/theme-utils";
 
 type ThemeContextType = {
     theme: Themes;
-    onChangeTheme: (nextTheme: Themes) => void;
+    setTheme: (nextTheme: Themes) => void;
 };
 
 const defaultThemeContext = {
     theme: DEFAULT_THEME,
-    onChangeTheme: () => {},
+    setTheme: () => {},
 };
 
 export const ThemeContext = createContext<ThemeContextType>(defaultThemeContext);
@@ -27,14 +27,10 @@ const ThemeProvider: FC<ProvidersType> = (props) => {
         themesTokensConstants[theme]
     ), [theme]);
 
-    // TODO: use it inside future select theme dropdown
-    const themeDetails = useMemo(() => (
-        themesMap[theme]
-    ), [theme]);
 
     const themeContextValue = useMemo(() => ({
         theme,
-        onChangeTheme: setTheme,
+        setTheme,
     }), [theme]);
 
     useEffect(() => {

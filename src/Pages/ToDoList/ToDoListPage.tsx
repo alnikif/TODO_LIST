@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useReducer, useState, useContext} from 'react';
 import {CreateTaskForm} from '../../components/CreateTaskForm/CreateTaskForm';
 import ToDoList from '../../components/ToDoList/ToDoList';
 import {Modal} from "../../components/Modal/Modal";
@@ -8,9 +8,13 @@ import {Button, ButtonType} from '../../components/Button/Button';
 import {getToDoListFromLS, setToDoListToLS} from "../../utils/local-storage-utils";
 import {Actions, initialStateToDoListReducer, TaskType, toDoListReducer} from './ToDoListReducer';
 import {UpdateTaskForm} from "../../components/UpdateTaskForm/UpdateTaskForm";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import useTheme from "./useTheme";
 import styles from './ToDoListPage.module.scss';
 
 function ToDoListPage() {
+  const { theme, themesOptions, onChangeTheme } = useTheme();
+
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
   const [deleteCompleteTasksModal, setDeleteCompleteTasksModal] = useState(false);
@@ -46,7 +50,7 @@ function ToDoListPage() {
   const updateTask = useMemo(() => {
     if(!updateTaskId) return null;
     const targetTask = taskList.find((item) => item.id === updateTaskId)
-   return targetTask || null;
+    return targetTask || null;
   }, [taskList, updateTaskId]);
 
   const onOpenCreateTaskModal = () => setShowAddTaskModal(true);
@@ -80,11 +84,11 @@ function ToDoListPage() {
   };
 
   const onToggleTask = ((taskId: string) => {
-      return dispatch({type: Actions.toggleSelectedTaskId, payload: taskId})
+    return dispatch({type: Actions.toggleSelectedTaskId, payload: taskId})
   });
 
   const onToggleAllTasks = () => {
-      dispatch({type: Actions.toggleAllTasks, payload: isAllTasksSelected })
+    dispatch({type: Actions.toggleAllTasks, payload: isAllTasksSelected })
   };
 
   const onRemoveSelectedTasks = useCallback(() => {
@@ -98,70 +102,95 @@ function ToDoListPage() {
   }, [list]);
 
   return (
-      <div>
-        <div className={styles.container}>
-          <h1>TODO LIST</h1>
-          <Button onClick={onOpenCreateTaskModal} type={ButtonType.action}>Add task</Button>
-          {showAddTaskModal && (
-              <Portal>
-                <Modal onClose={onCloseCreateTaskModal}>
-                  <CreateTaskForm onCreateTask={onCreateTask} />
-                </Modal>
-              </Portal>
-          )}
-          {showDeleteTasksModal && (
-              <Portal>
-                <Modal
-                    onAccept={onRemoveSelectedTasks}
-                    onClose={onCloseDeleteSelectedTasksModal}
-                >
-                  <DeleteTasksModalBody
-                      title="Are you sure you want to delete next tasks?"
-                      selectedTasks={selectedTasks}
-                  />
-                </Modal>
-              </Portal>
-          )}
-          {deleteCompleteTasksModal && (
-              <Portal>
-                <Modal
-                    onAccept={onRemoveCompleteTasks}
-                    onClose={onCloseDeleteCompletedTaskModal}
-                >
-                  <DeleteTasksModalBody
-                      title="Are you sure you want to delete all completed tasks?"
-                      selectedTasks={completedTasks}
-                  />
-                </Modal>
-              </Portal>
-          )}
-          {updateTaskId && updateTask && (
-              <Portal>
-                <Modal
-                    onClose={onCloseUpdateTaskModal}
-                >
-                  <UpdateTaskForm
+      <div className={styles.container}>
+        <h1>TODO LIST</h1>
+        <Button
+            type={ButtonType.action}
+            onClick={onOpenCreateTaskModal}
+        >
+          Add task
+        </Button>
+
+        <Button
+            type={ButtonType.action}
+            disabled={!selectedTasks.length}
+            onClick={onOpenDeleteSelectedTasksModal}
+        >
+          Remove selected tasks
+        </Button>
+
+        <Button
+            type={ButtonType.action}
+            disabled={!completedTasks.length}
+            onClick={onOpenDeleteCompletedTaskModal}
+        >
+          Remove completed tasks
+        </Button>
+
+        <Dropdown
+            selectedOptionId={theme}
+            options={themesOptions}
+            onSelect={onChangeTheme}
+        />
+
+        <ToDoList
+            list={taskList}
+            isAllTasksSelected={isAllTasksSelected}
+            onToggleTask={onToggleTask}
+            onRemoveTask={onRemoveTask}
+            onToggleStatus={onToggleStatus}
+            onToggleAllTasks={onToggleAllTasks}
+            onOpenUpdateTaskModal={onOpenUpdateTaskModal}
+        />
+
+        {showAddTaskModal && (
+            <Portal>
+              <Modal onClose={onCloseCreateTaskModal}>
+                <CreateTaskForm onCreateTask={onCreateTask} />
+              </Modal>
+            </Portal>
+        )}
+
+        {showDeleteTasksModal && (
+            <Portal>
+              <Modal
+                  onAccept={onRemoveSelectedTasks}
+                  onClose={onCloseDeleteSelectedTasksModal}
+              >
+                <DeleteTasksModalBody
+                    title="Are you sure you want to delete next tasks?"
+                    selectedTasks={selectedTasks}
+                />
+              </Modal>
+            </Portal>
+        )}
+
+        {deleteCompleteTasksModal && (
+            <Portal>
+              <Modal
+                  onAccept={onRemoveCompleteTasks}
+                  onClose={onCloseDeleteCompletedTaskModal}
+              >
+                <DeleteTasksModalBody
+                    title="Are you sure you want to delete all completed tasks?"
+                    selectedTasks={completedTasks}
+                />
+              </Modal>
+            </Portal>
+        )}
+
+        {updateTaskId && updateTask && (
+            <Portal>
+              <Modal
+                  onClose={onCloseUpdateTaskModal}
+              >
+                <UpdateTaskForm
                     task={updateTask}
                     onUpdateTask={onUpdateTask}
-                  />
-                </Modal>
-              </Portal>
-          )}
-          <Button type={ButtonType.action} disabled={!selectedTasks.length} onClick={onOpenDeleteSelectedTasksModal}>
-            Remove selected tasks
-          </Button>
-          <Button type={ButtonType.action} disabled={!completedTasks.length} onClick={onOpenDeleteCompletedTaskModal}>
-            Remove completed tasks</Button>
-          <ToDoList
-              list={taskList}
-              isAllTasksSelected={isAllTasksSelected}
-              onToggleTask={onToggleTask}
-              onRemoveTask={onRemoveTask}
-              onToggleStatus={onToggleStatus}
-              onToggleAllTasks={onToggleAllTasks}
-              onOpenUpdateTaskModal={onOpenUpdateTaskModal}
-          />
-        </div>
+                />
+              </Modal>
+            </Portal>
+        )}
       </div>
   );
 }
