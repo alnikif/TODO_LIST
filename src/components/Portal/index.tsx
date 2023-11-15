@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export type PortalPropsType = {
-    children: React.ReactNode,
+    readonly children: React.ReactNode,
 };
 
 export const Portal: React.FC<PortalPropsType> = ({ children }) => {

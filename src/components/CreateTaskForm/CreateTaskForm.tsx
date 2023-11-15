@@ -3,7 +3,7 @@ import { TaskType } from "../../Pages/ToDoList/ToDoListReducer";
 import {TaskForm} from "../TaskForm/TaskForm";
 
 type CreateTaskFormPropsType = {
-    onCreateTask: (newTaskData: Pick<TaskType, 'title' | 'description'>) => void
+    readonly onCreateTask: (newTaskData: Pick<TaskType, 'title' | 'description'>) => void
 };
 
 type InitialFormDataType ={

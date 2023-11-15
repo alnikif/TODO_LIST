@@ -51,15 +51,18 @@ export const toDoListReducer = (state: StateType, action: ActionType): StateType
             return { ...state, list: state.list.filter(item => !state.selectedTasksIds.includes(item.id))};
 
         case Actions.createTask:
-            return { ...state, list: [...state.list, {
+            return {
+ ...state, list: [...state.list, {
                     ...action.payload,
                     isDone: false,
                     id: nanoid(),
                     date: new Date()
-                }] }
+                }] 
+}
 
         case Actions.toggleStatus:
-            return{ ...state, list: state.list.map((item) => {
+            return{
+ ...state, list: state.list.map((item) => {
                     if(item.id !== action.payload) return item;
                     return { ...item, isDone: !item.isDone }})
             }
@@ -84,7 +87,8 @@ export const toDoListReducer = (state: StateType, action: ActionType): StateType
         }
 
         case Actions.updateTask :
-            return {...state, list: state.list.map((item) => {
+            return {
+...state, list: state.list.map((item) => {
                     if(item.id!== action.payload.id) return item;
                     return {...item, title: action.payload.title, description: action.payload.description}
                 })

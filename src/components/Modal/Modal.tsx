@@ -4,13 +4,16 @@ import styles from './Modal.module.scss';
 import cx from 'classnames';
 
 export type ModalPropsType = {
-    children: React.ReactNode,
-    onClose: () => void,
-    onAccept?: () => void,
+    readonly children: React.ReactNode,
+    readonly onClose: () => void,
+    readonly onAccept?: () => void,
 };
 
 export const Modal: React.FC<ModalPropsType> = (props) => {
-    let { children, onAccept, onClose } = props;
+    const { onAccept, onClose } = props;
+
+    let children = props.children;
+
 
     if (!children) {
         children = <p>This is a example modal</p>;
@@ -26,7 +29,7 @@ export const Modal: React.FC<ModalPropsType> = (props) => {
             )}>
                 {children}
                 {onAccept && <Button type={ButtonType.action} onClick={onAccept}>Agree</Button>}
-                <Button onClick={onClose} type={ButtonType.close}></Button>
+                <Button onClick={onClose} type={ButtonType.close} />
             </div>
         </div>
     );

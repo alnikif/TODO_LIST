@@ -4,13 +4,13 @@ import styles from './ToDoList.module.scss';
 import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 export type ToDoListType = {
-    list: ExtendedTaskType[],
-    isAllTasksSelected: boolean,
-    onToggleAllTasks: () => void
-    onRemoveTask: (id: string) => void,
-    onToggleStatus: (id: string) => void,
-    onToggleTask: (id: string) => void,
-    onOpenUpdateTaskModal: (id: string) => void
+    readonly list: ExtendedTaskType[],
+    readonly isAllTasksSelected: boolean,
+    readonly onToggleAllTasks: () => void
+    readonly onRemoveTask: (id: string) => void,
+    readonly onToggleStatus: (id: string) => void,
+    readonly onToggleTask: (id: string) => void,
+    readonly onOpenUpdateTaskModal: (id: string) => void
 }
 
 const ToDoList: React.FC<ToDoListType> = (props) => {

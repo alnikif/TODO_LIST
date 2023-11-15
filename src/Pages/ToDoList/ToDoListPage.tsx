@@ -9,11 +9,27 @@ import {getToDoListFromLS, setToDoListToLS} from "../../utils/local-storage-util
 import {Actions, initialStateToDoListReducer, TaskType, toDoListReducer} from './ToDoListReducer';
 import {UpdateTaskForm} from "../../components/UpdateTaskForm/UpdateTaskForm";
 import Dropdown from "../../components/Dropdown/Dropdown";
-import useTheme from "./useTheme";
+import {themes} from "../../constants/theme";
+import {ThemeContext} from "../../Providers/ThemeProvider";
 import styles from './ToDoListPage.module.scss';
+import {languages, languagesConstants} from "../../constants/language";
+import {LanguageContext} from "../../Providers/LanguageProvider";
+
 
 function ToDoListPage() {
-  const { theme, themesOptions, onChangeTheme } = useTheme();
+
+  const themesOptions = themes.map(({key, title}) => ({
+    id: key, label: title
+  }));
+
+  const languagesOptions = languages.map(({key, title, constants}) => ({
+    id: key, label: title, constants: constants
+  }));
+
+  const { theme, setTheme: onChangeTheme } = useContext(ThemeContext);
+  const { language, setLanguage: onChangeLanguage } = useContext(LanguageContext);
+
+
 
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showDeleteTasksModal, setShowDeleteTasksModal] = useState(false);
@@ -96,8 +112,8 @@ function ToDoListPage() {
     dispatch({type: Actions.removeSelectedTasks})
   }, [list]);
 
-  const onUpdateTask = useCallback((updateTask: Pick<TaskType, 'title' | 'description' | 'id'>) => {
-    dispatch({type: Actions.updateTask, payload: updateTask})
+  const onUpdateTask = useCallback((updateTaskItem: Pick<TaskType, 'title' | 'description' | 'id'>) => {
+    dispatch({type: Actions.updateTask, payload: updateTaskItem})
     setUpdateTaskId(null);
   }, [list]);
 

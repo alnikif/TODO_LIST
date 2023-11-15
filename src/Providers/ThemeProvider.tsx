@@ -1,5 +1,5 @@
 import React, {FC, ReactNode, createContext, useState, useMemo, useEffect} from 'react';
-import {themesTokensConstants, DEFAULT_THEME, Themes, themesMap} from "../constants/theme";
+import {themesTokensConstants, DEFAULT_THEME, Themes} from "../constants/theme";
 import {changeThemesConstants} from "../utils/theme-utils";
 
 type ThemeContextType = {
@@ -9,13 +9,15 @@ type ThemeContextType = {
 
 const defaultThemeContext = {
     theme: DEFAULT_THEME,
-    setTheme: () => {},
+    setTheme: () => {
+        //
+    },
 };
 
 export const ThemeContext = createContext<ThemeContextType>(defaultThemeContext);
 
 type ProvidersType = {
-    children: ReactNode;
+    readonly children: ReactNode;
 };
 
 const ThemeProvider: FC<ProvidersType> = (props) => {

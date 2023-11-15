@@ -1,5 +1,4 @@
-import React from'react';
-import { useState } from "react";
+import React, { useState } from'react';
 import cx from 'classnames';
 import { SliderCheckbox } from '../SliderCheckbox/SliderCheckbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,12 +11,12 @@ import styles from './Task.module.scss'
 export type ExtendedTaskType = TaskType & {isSelected: boolean};
 
 export type TaskPropsType = {
-    index: number,
-    data: ExtendedTaskType,
-    onRemoveTask: (id: string) => void,
-    onToggleStatus: (id: string) => void,
-    onToggleTask: (id: string) => void,
-    onOpenUpdateTaskModal: (id: string) => void
+    readonly index: number,
+    readonly data: ExtendedTaskType,
+    readonly onRemoveTask: (id: string) => void,
+    readonly onToggleStatus: (id: string) => void,
+    readonly onToggleTask: (id: string) => void,
+    readonly onOpenUpdateTaskModal: (id: string) => void
 };
 
 const Task: React.FC<TaskPropsType> = (props) => {
@@ -36,7 +35,7 @@ const Task: React.FC<TaskPropsType> = (props) => {
         <div className={styles.taskWrapper}>
             <div className={styles.tailBox}>
                 <CustomCheckbox checked={isSelected} onChange={() => onToggleTask(id)} />
-                <div className={styles.index}></div>
+                <div className={styles.index} />
             </div>
 
             <div className={styles.date} onClick={onToggleShowDescription}>{formattedDate}</div>

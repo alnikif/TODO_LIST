@@ -1,0 +1,19 @@
+{
+  "printWidth": 150,
+  "tabWidth": 2,
+  "parser": "typescript",
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    }
+  ],
+  "arrowParens": "always",
+  "jsxBracketSameLine": false,
+  "endOfLine": "auto"
+}

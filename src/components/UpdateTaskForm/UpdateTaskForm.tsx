@@ -5,16 +5,14 @@ import {TaskForm} from "../TaskForm/TaskForm";
 type UpdatedTaskFormProps = Pick<TaskType, 'title' | 'description'>
 
 type UpdateTaskFormPropsType = {
-    task: TaskType;
-    onUpdateTask: (newTaskData: Pick<TaskType, 'title' | 'description' | 'id'>) => void
+    readonly task: TaskType;
+    readonly onUpdateTask: (newTaskData: Pick<TaskType, 'title' | 'description' | 'id'>) => void
 };
 
 const initialFormData: UpdatedTaskFormProps = {
     title: '',
     description: '',
 };
-
-
 
 export const UpdateTaskForm : React.FC<UpdateTaskFormPropsType> = (props)  => {
     const { task, onUpdateTask } = props;

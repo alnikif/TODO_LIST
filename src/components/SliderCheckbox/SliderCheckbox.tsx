@@ -2,8 +2,8 @@ import React from "react";
 import styles from './SliderCheckbox.module.scss';
 
 export type SliderCheckboxPropsType = {
-    isDone: boolean,
-    onChange: () => void,
+    readonly isDone: boolean,
+    readonly onChange: () => void,
 };
 
 export const SliderCheckbox: React.FC<SliderCheckboxPropsType> = ({isDone, onChange}) => (

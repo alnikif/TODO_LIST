@@ -8,26 +8,26 @@ type OptionItemType<T> = {
 };
 
 type DropdownPropsTypes<T> = {
-    options: OptionItemType<T>[];
-    selectedOptionId?: string | null | undefined;
-    onSelect: (optionId: T) => void;
+    readonly options: OptionItemType<T>[];
+    readonly selectedOptionId?: string | null | undefined;
+    readonly onSelect: (optionId: T) => void;
 };
 
 const Dropdown = <T extends unknown>(props: DropdownPropsTypes<T>) => {
     const { selectedOptionId, options, onSelect } = props;
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const selectedOption = useMemo(() => {
         if (!selectedOptionId) return null;
         return options.find((item) => item.id == selectedOptionId) || null;
     }, [options, selectedOptionId]);
 
-    const onToggleDropdown = () => setOpen(!isOpen);
+    const onToggleDropdown = () => setIsOpen(!isOpen);
 
     const onSelectOption = (optionId: T) => {
         onSelect(optionId);
-        setOpen(false);
+        setIsOpen(false);
     }
 
     return (
@@ -37,7 +37,7 @@ const Dropdown = <T extends unknown>(props: DropdownPropsTypes<T>) => {
                 onClick={onToggleDropdown}
             >
                 {selectedOption ? selectedOption.label : "Please select some option"}
-                <i className={`fa fa-chevron-right icon ${isOpen && "open"}`}></i>
+                <i className={`fa fa-chevron-right icon ${isOpen && "open"}`} />
             </div>
             <div className={cx(styles.dropdownBody, { [styles.open]: isOpen })}>
                 {options.map(item => (

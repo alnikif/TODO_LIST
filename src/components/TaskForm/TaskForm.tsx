@@ -4,13 +4,13 @@ import {Button, ButtonType} from "../Button/Button";
 import styles from "./TaskForm.module.scss";
 
 type TaskFormPropsType = {
-    formName: string,
-    title: string,
-    description: string,
-    onResetForm?: () => void,
-    onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    onChangeDescription: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void,
+    readonly formName: string,
+    readonly title: string,
+    readonly description: string,
+    readonly onResetForm?: () => void,
+    readonly onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    readonly onChangeDescription: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    readonly onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void,
 }
 
 

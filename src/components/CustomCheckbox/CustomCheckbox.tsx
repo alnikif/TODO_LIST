@@ -3,8 +3,8 @@ import cx from 'classnames';
 import styles from './CustomCheckbox.module.scss';
 
 export type CustomCheckboxProps = {
-    onChange: () => void,
-    checked: boolean,
+    readonly onChange: () => void,
+    readonly checked: boolean,
 };
 
 export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({onChange, checked}: CustomCheckboxProps) => {

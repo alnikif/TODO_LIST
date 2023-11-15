@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "./src/types"],
+    "types": ["node", "react", "react-dom"],
     "target": "es5",
     "lib": [
       "dom",
@@ -18,9 +20,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx",
+    "./.eslintrc.js"
+  ],
+  "exclude": [
+    "./node_modules", "build", "dist"]
 }

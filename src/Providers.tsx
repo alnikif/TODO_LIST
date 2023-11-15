@@ -1,9 +1,10 @@
 import React, { FC, ReactNode } from 'react';
+import LanguageProvider from './Providers/LanguageProvider';
 import ReduxProvider from "./Providers/ReduxProvider";
 import ThemeProvider from "./Providers/ThemeProvider";
 
 type ProvidersType = {
-    children: ReactNode;
+    readonly children: ReactNode;
 };
 
 const Providers: FC<ProvidersType> = (props) => {
@@ -11,9 +12,11 @@ const Providers: FC<ProvidersType> = (props) => {
 
     return(
         <ThemeProvider>
-            <ReduxProvider>
-                {children}
-            </ReduxProvider>
+            <LanguageProvider>
+                <ReduxProvider>
+                    {children}
+                </ReduxProvider>
+            </LanguageProvider>
         </ThemeProvider>
     )
 };

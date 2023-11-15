@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from '../store';
 
 type ProvidersType = {
-    children: ReactNode;
+    readonly children: ReactNode;
 };
 
 const ReduxProvider: FC<ProvidersType> = (props) => {
