@@ -132,8 +132,10 @@ function ToDoListPage() {
 
   return (
     <div className={styles.container}>
-      <Dropdown selectedOptionId={language} options={languagesOptions} onSelect={onChangeLanguage} />
-      <Dropdown selectedOptionId={theme} options={themesOptions} onSelect={onChangeTheme} />
+      <div className={styles.dropDownContainer}>
+        <Dropdown selectedOptionId={language} options={languagesOptions} onSelect={onChangeLanguage} />
+        <Dropdown selectedOptionId={theme} options={themesOptions} onSelect={onChangeTheme} />
+      </div>
       <h1>{toDoListTitle}</h1>
       <Button type={ButtonType.action} onClick={onOpenCreateTaskModal}>
         {addTaskButtonTitle}

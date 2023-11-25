@@ -5,7 +5,8 @@
   font-weight: bold;
   box-sizing: border-box;
   width: 120px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdownHeader {
@@ -24,7 +25,7 @@
 
 .dropdownBody.open {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   border: 0.5px solid #cccccc;
   width: 100%;

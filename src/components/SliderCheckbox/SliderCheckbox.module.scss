@@ -1,3 +1,5 @@
+@import '../../constants/themeTokens.module.scss';
+
 .slider-container {
     position: relative;
     width: 30px;
@@ -22,11 +24,11 @@
     text-align: end;
     padding-top: 3px;
     padding-right: 4px;
-    color: #6370f0;
+    color: $checkbox-color;
   }
 
   .inptCheckbox:checked + .slider {
-    background-color: #6370f0;
+    background-color: $checkbox-background;
   }
 
   .slider:before {

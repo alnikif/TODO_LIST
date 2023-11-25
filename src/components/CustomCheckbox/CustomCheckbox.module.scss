@@ -1,3 +1,5 @@
+@import '../../constants/themeTokens.module.scss';
+
 .checkboxContainer {
   cursor: pointer;
   display: flex;
@@ -22,7 +24,7 @@
 }
 
 .customCheckbox.checked {
-  background-color: #6370f0;
+  background-color: $checkbox-background;
 }
 
 .customCheckbox.checked::before {

@@ -16,17 +16,19 @@ export const themesTokensConstants = {
         // button
         '--button-background': '#6370f0',
         '--button-background-hover': 'rgba(255, 255, 255, 0.2)',
-        '--button-border': 'rgba(255, 255, 255, 0.24)',
-        '--button-text': 'hsla(0, 0%, 100%, 0.1)',
 
-        // checkbox
+        // checkbox & slider
+        '--checkbox-background': '#6370f0',
+        '--checkbox-color': '#6370f0',
     },
     [Themes.dark]: {
         // button
         '--button-background': '#000000',
         '--button-background-hover': 'hsla(0, 0%, 100%, 0.2)',
-        '--button-border': 'hsla(0, 0%, 100%, 0.24)',
-        '--button-text': 'hsla(0, 0%, 100%, 1)',
+
+        // checkbox & slider
+        '--checkbox-background': '#000000',
+        '--checkbox-color': '#000000',
     }
 };
 
